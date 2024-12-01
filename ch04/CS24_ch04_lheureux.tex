@@ -11,6 +11,7 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{scrextend}
+\usepackage{titlesec}
 \usepackage{colortbl}
 
 \lstdefinelanguage[RISC-V]{Assembler} {
@@ -31,6 +32,13 @@
   morecomment=[l]{;},   % mark ; as line comment start
   morecomment=[l]{\#},  % as well as #
 }
+
+\titleformat{\subsubsection}[runin]
+    {\normalfont\bfseries}% formatting commands to apply to the whole heading
+    {\thesubsection}% the label and number
+    {0.5em}% space between label/number and subsection title
+    {}% formatting commands applied just to subsection title
+    []% punctuation or other commands following subsection title
 
 % define some colors
 \definecolor{pink}{rgb}{204, 0, 68}
@@ -77,7 +85,7 @@
 \end{center}
 \vspace{0.25in}
 
-\textbf{4.5} For the problems in this exercise, assume that there are no pipeline stalls and that the breakdown of the
+\subsubsection*{4.5} For the problems in this exercise, assume that there are no pipeline stalls and that the breakdown of the
 executed instructions is as follows:
 
 \begin{table}[H]
@@ -85,15 +93,16 @@ executed instructions is as follows:
     \begin{tabular}{|c|c|c|c|c|c|}
     \hline
     \rowcolor[HTML]{1391DB} 
-    add & addi & not & beq & lw & sw \\ \hline
+    add & addi & not & beq & lw & sw \\ \hline \hline
     20\% & 20\% & 0\% & 25\% & 25\% & 10\% \\ \hline
     \end{tabular}
 \end{table}
 
-\textbf{4.5.1} [10] \textlangle 4.3\textrangle \; In what fraction of cycles is the data memory used?
+
+\subsubsection*{4.5.1 [10] \textlangle 4.3\textrangle} In what fraction of cycles is the data memory used?
 \vspace{0.125in}
 
-\textbf{4.8} In this exercise, we examine how pipelining affects the clock cycle time of the processor. Problems in
+\subsubsection*{4.8} In this exercise, we examine how pipelining affects the clock cycle time of the processor. Problems in
 this exercise assume that individual stages of the datapath have the following latencies:
 
 \begin{table}[H]
@@ -101,7 +110,7 @@ this exercise assume that individual stages of the datapath have the following l
     \begin{tabular}{|c|c|c|c|c|}
     \hline
     \rowcolor[HTML]{1391DB} 
-    IF & ID & EX & MEM & WB \\ \hline
+    IF & ID & EX & MEM & WB \\ \hline \hline
     250ps & 350ps & 150ps & 300ps & 200ps \\ \hline
     \end{tabular}
 \end{table}
@@ -112,16 +121,16 @@ Also, assume that instructions executed by the processor are broken down as foll
     \begin{tabular}{|c|c|c|c|}
     \hline
     \rowcolor[HTML]{1391DB} 
-    alu & beq & lw & sw  \\ \hline
+    alu & beq & lw & sw  \\ \hline \hline
     45\% & 20\% & 20\% & 15\% \\ \hline
     \end{tabular}
 \end{table}
-\textbf{4.8.1} [5] \textlangle 4.5\textrangle \; What is the clock cycle time in a pipelined and non-pipelined processor?
+\subsubsection*{4.8.1 [5] \textlangle 4.5\textrangle} What is the clock cycle time in a pipelined and non-pipelined processor?
 
-\textbf{4.8.2} [10] \textlangle 4.5\textrangle \; What is the total latency of an LW instruction in a pipelined and non-pipelined processor?
+\subsubsection*{4.8.2 [10] \textlangle 4.5\textrangle} What is the total latency of an LW instruction in a pipelined and non-pipelined processor?
 \vspace{0.125in}
 
-\textbf{4.11} Consider the following loop:
+\subsubsection*{4.11} Consider the following loop:
 \begin{lstlisting}
     loop:
         lw r1, 0(r1)
@@ -134,13 +143,13 @@ Assume that perfect branch prediction is used (no stalls due to control hazards)
 and the pipeline has full forwarding support. Also, assume that many iterations of this loop are executed
 before the loop exists.
 
-\textbf{4.11.1} [10] \textlangle 4.6\textrangle \; Show a pipeline execution diagram for the third iteration of this loop, from the cycle in which we
+\subsubsection*{4.11.1 [10] \textlangle 4.6\textrangle} Show a pipeline execution diagram for the third iteration of this loop, from the cycle in which we
 fetch the first instruction up to (but not including) the cycle in which we can fetch the first instruction of
 the next iteration. Show all instructions that are in the pipeline during these cycles (not just those from the
 third iteration.
 \vspace{0.125in}
 
-\textbf{4.13} This exercise is intended to help you understand the relationship between forwarding, hazard detection,
+\subsubsection*{4.13} This exercise is intended to help you understand the relationship between forwarding, hazard detection,
 and ISA design. problems in this exercise refer to the following sequence of instructions and assume that it
 is executed of a 5-stage pipelined datapath:
 \begin{lstlisting}
@@ -152,12 +161,11 @@ is executed of a 5-stage pipelined datapath:
 \end{lstlisting}
 
 
-\textbf{4.13.1} [5] \textlangle 4.5\textrangle \; If there is no forwarding or hazard detection, insert nops to ensure correct execution.
+\subsubsection*{4.13.1 [5] \textlangle 4.5\textrangle} If there is no forwarding or hazard detection, insert nops to ensure correct execution.
 
-\textbf{4.13.2} [10] \textlangle 4.5\textrangle \; How many cycles in total are needed to complete those instructions (including the nops that you
+\subsubsection*{4.13.2 [10] \textlangle 4.5\textrangle} How many cycles in total are needed to complete those instructions (including the nops that you
 inserted?) If regular forwarding is implemented, how many cycles are in the revised code in total?
 \vspace{0.125in}
-
 
 
 \end{document} 
