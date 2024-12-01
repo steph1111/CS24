@@ -126,9 +126,18 @@ Also, assume that instructions executed by the processor are broken down as foll
     \end{tabular}
 \end{table}
 \subsubsection*{4.8.1 [5] \textlangle 4.5\textrangle} What is the clock cycle time in a pipelined and non-pipelined processor?
+\begin{itemize}
+    \item[(a)] All pipeline stages take a single clock cycle, so the clock cycle must be long enough to accommodate the slowest operation. In this case the slowest operation is the instruction decode (ID) at 350ps. Therefore the pipelined clock cycle time is 350ps.
+    \item[(b)] In a non-pipelined processor, each instruction executes after the other, one at a time. To complete one instruction, the time for each operation is added together, for the worst case instruction. \[250\text{ps} + 350\text{ps} + 150\text{ps} + 300\text{ps} + 200\text{ps} = 1250\text{ps}\] 
+\end{itemize}
 
 \subsubsection*{4.8.2 [10] \textlangle 4.5\textrangle} What is the total latency of an LW instruction in a pipelined and non-pipelined processor?
+\begin{itemize}
+    \item[(a)] The \verb|lw| instruction uses every stage in the execution process (IF, ID, EX, MEM and WB). For a pipelined processor, each operation takes the same amount of time, in this case $350\text{ps}$. So the total latency of the \verb|lw| instruction is $350\text{ps} \times 5 = 1750\text{ps}$
+    \item[(b)] For a non-pipelined processor, stages are allowed to take different durations so in the non-pipelined example the total latency for \verb|lw| is the sum of each stage's execution time.  \[250\text{ps} + 350\text{ps} + 150\text{ps} + 300\text{ps} + 200\text{ps} = 1250\text{ps}\] 
+\end{itemize}
 \vspace{0.125in}
+
 
 \subsubsection*{4.11} Consider the following loop:
 \begin{lstlisting}
