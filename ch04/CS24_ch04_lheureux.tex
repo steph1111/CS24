@@ -11,6 +11,7 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{scrextend}
+\usepackage{colortbl}
 
 \lstdefinelanguage[RISC-V]{Assembler} {
   alsoletter={.},
@@ -72,90 +73,91 @@
 \fancyfoot{}
 
 \begin{center}
-    \Large{\textbf{Chapter 3 Exercises}}\\
+    \Large{\textbf{Chapter 4 Exercises}}\\
 \end{center}
 \vspace{0.25in}
 
-\textbf{3.3} [10] \textlangle 3.2\textrangle \; Convert 5ED4 into a binary number. What makes base 16 (hexadecimal) an attractive numbering system for representing values in computers?
+\textbf{4.5} For the problems in this exercise, assume that there are no pipeline stalls and that the breakdown of the
+executed instructions is as follows:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    \rowcolor[HTML]{1391DB} 
+    add & addi & not & beq & lw & sw \\ \hline
+    20\% & 20\% & 0\% & 25\% & 25\% & 10\% \\ \hline
+    \end{tabular}
+\end{table}
+
+\textbf{4.5.1} [10] \textlangle 4.3\textrangle \; In what fraction of cycles is the data memory used?
 \vspace{0.125in}
 
-\begin{addmargin}[0.15cm]{0cm}
+\textbf{4.8} In this exercise, we examine how pipelining affects the clock cycle time of the processor. Problems in
+this exercise assume that individual stages of the datapath have the following latencies:
+
 \begin{table}[H]
-    \begin{tabular}{l|llll}
-        hex & 5 & E & D & 4 \\
-        ten & 5 & 14 & 13 & 4 \\
-        two & 0100 & 1110 & 1101 & 0100
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    \rowcolor[HTML]{1391DB} 
+    IF & ID & EX & MEM & WB \\ \hline
+    250ps & 350ps & 150ps & 300ps & 200ps \\ \hline
     \end{tabular}
 \end{table}
 
-5ED4\textsubscript{hex} is 0100 1110 1101 0100\textsubscript{two}. 
-Hexadecimal is the base-16 number system, a numeric representation format in which each digit can take on 16 values, ranging from 0 to F. Each hexadecimal digit therefore corresponds directly to 4 bits, making it convenient for representing binary values, as the translation between the two systems is straightforward. Hexadecimal is particularly useful in computing applications. It offers a more concise format than binary while maintaining easy conversion between the two number systems.
-\end{addmargin}
+Also, assume that instructions executed by the processor are broken down as follows:
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    \rowcolor[HTML]{1391DB} 
+    alu & beq & lw & sw  \\ \hline
+    45\% & 20\% & 20\% & 15\% \\ \hline
+    \end{tabular}
+\end{table}
+\textbf{4.8.1} [5] \textlangle 4.5\textrangle \; What is the clock cycle time in a pipelined and non-pipelined processor?
 
-\vspace{0.5in}
-\textbf{3.20} [5] \textlangle 3.5\textrangle \; What decimal number does the bit pattern 0x0C000000 represent if it is a two's complement integer? An unsigned integer?
+\textbf{4.8.2} [10] \textlangle 4.5\textrangle \; What is the total latency of an LW instruction in a pipelined and non-pipelined processor?
 \vspace{0.125in}
 
-\begin{addmargin}[0.15cm]{0cm}
-\begin{table}[H]
-    \begin{tabular}{l|llllllll}
-        & $16^7$ & $16^6$ & $16^5$ & $16^4$ & $16^3$ & $16^2$ & $16^1$ & $16^0$ \\ 
-        hex & 0 & C & 0 & 0 & 0 & 0 & 0 & 0 \\
-        two & 0000 & 1100 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000
-    \end{tabular}
-\end{table}
-$12 \times 16^6 = 201,326,592$
+\textbf{4.11} Consider the following loop:
+\begin{lstlisting}
+    loop:
+        lw r1, 0(r1)
+        and r1, r1, r2
+        lw r1, 0(r1)
+        lw r1, 0(r1)
+        beq r1,r0, loop
+\end{lstlisting}
+Assume that perfect branch prediction is used (no stalls due to control hazards), that there are no delay slots,
+and the pipeline has full forwarding support. Also, assume that many iterations of this loop are executed
+before the loop exists.
 
+\textbf{4.11.1} [10] \textlangle 4.6\textrangle \; Show a pipeline execution diagram for the third iteration of this loop, from the cycle in which we
+fetch the first instruction up to (but not including) the cycle in which we can fetch the first instruction of
+the next iteration. Show all instructions that are in the pipeline during these cycles (not just those from the
+third iteration.
 \vspace{0.125in}
-Two's complement integer: $201,326,592_{\text{ten}}$
 
-Unsigned integer: $201,326,592_{\text{ten}}$
+\textbf{4.13} This exercise is intended to help you understand the relationship between forwarding, hazard detection,
+and ISA design. problems in this exercise refer to the following sequence of instructions and assume that it
+is executed of a 5-stage pipelined datapath:
+\begin{lstlisting}
+    add r5, r2, r1
+    lw r3, 4(r5)
+    lw r2, 0(r2)
+    or r3, r5, r3
+    sw r3, 0(r5)
+\end{lstlisting}
 
-\end{addmargin}
 
-\vspace{0.5in}
-\textbf{3.21} [10] \textlangle 3.5\textrangle \; If the bit pattern 0x0000006F is placed into the Instruction Register, what RISC-V instruction will be executed?
-\begin{addmargin}[0.15cm]{0cm}
-\begin{table}[H]
-    \begin{tabular}{l|llllllll}
-        & $16^7$ & $16^6$ & $16^5$ & $16^4$ & $16^3$ & $16^2$ & $16^1$ & $16^0$ \\ 
-        hex & 0 & 0 & 0 & 0 & 0 & 0 & 6 & F \\
-        two & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0110 & 1111
-    \end{tabular}
-\end{table}
-The last 7 bits corresponds to the optcode of the instruction. The optcode denotes the the operation and format of the instruction. It can be determined the instruction is \verb|jal x0,0(0)|, as \verb|jal| is the only RISC-V instruction matching the optcode 1101111\textsubscript{two}.
+\textbf{4.13.1} [5] \textlangle 4.5\textrangle \; If there is no forwarding or hazard detection, insert nops to ensure correct execution.
 
-\end{addmargin}
+\textbf{4.13.2} [10] \textlangle 4.5\textrangle \; How many cycles in total are needed to complete those instructions (including the nops that you
+inserted?) If regular forwarding is implemented, how many cycles are in the revised code in total?
+\vspace{0.125in}
 
-\vspace{0.5in}
-\textbf{3.22} [10] \textlangle 3.5\textrangle \; What decimal number does the bit pattern 0x0C000000 represent if it is a floating point number? Use the IEEE 754 standard.
-\begin{addmargin}[0.15cm]{0cm}
-\begin{table}[H]
-    \setlength{\tabcolsep}{4pt}
-    \fontsize{7pt}{8pt}\selectfont
-    \begin{tabular}{c|cccccccc|ccccccccccccccccccccccc}
-        s & \multicolumn{8}{c|}{exponent} & \multicolumn{23}{c}{fraction} \\
-        31 & 30 & 29 & 28 & 27 & 26 & 25 & 24 & 23 & 22 & 21 & 20 & 19 & 18 & 17 & 16 & 15 & 14 & 13 & 12 & 11 & 10 & 9 & 8 & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
-        0 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
-    \end{tabular}
-\end{table}
-\[ (-1)^s \times (1 + \text{Fraction}) \times  2^{\text{Exponent - Bias}} = (-1)^0 \times (1 + 0) \times 2^{(24 - 127)} = 2^{-103} = 9.86076132 \times 10^{-32}_{\text{ten}}\]
-\end{addmargin}
 
-\vspace{0.5in}
-\textbf{3.23} [10] \textlangle 3.5\textrangle \; Write down the binary representation of the decimal number 63.25 assuming the IEEE 754 single precision format.
-\begin{addmargin}[0.15cm]{0cm}
-\[63.25_{\text{ten}} = \frac{253}{4}_{\text{ten}} = \frac{253}{2^2}_{\text{ten}} \Rightarrow 1111 11.01_{\text{two}} \times 2^0 \Rightarrow 1.111 1101_{\text{two}} \times 2^5 \]
-\begin{table}[H]
-    \setlength{\tabcolsep}{4pt}
-    \fontsize{7pt}{8pt}\selectfont
-    \begin{tabular}{c|cccccccc|ccccccccccccccccccccccc}
-        s & \multicolumn{8}{c|}{exponent} & \multicolumn{23}{c}{fraction} \\
-        31 & 30 & 29 & 28 & 27 & 26 & 25 & 24 & 23 & 22 & 21 & 20 & 19 & 18 & 17 & 16 & 15 & 14 & 13 & 12 & 11 & 10 & 9 & 8 & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
-        0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
-    \end{tabular}
-\end{table}
-63.25\textsubscript{ten} = 0100 0010 0111 1101 0000 0000 0000 0000\textsubscript{two}
-\end{addmargin}
 
 \end{document} 
