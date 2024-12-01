@@ -164,6 +164,12 @@ Assume that perfect branch prediction is used (no stalls due to control hazards)
 and the pipeline has full forwarding support. Also, assume that many iterations of this loop are executed
 before the loop exists.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=6.5in]{p4.11.1.png}
+    \caption{Pipeline for loop 3}
+\end{figure}
+
 
 \subsubsection*{4.11.1 [10] \textlangle 4.6\textrangle} Show a pipeline execution diagram for the third iteration of this loop, from the cycle in which we
 fetch the first instruction up to (but not including) the cycle in which we can fetch the first instruction of
@@ -186,7 +192,7 @@ is executed of a 5-stage pipelined datapath:
 \subsubsection*{4.13.1 [5] \textlangle 4.5\textrangle} If there is no forwarding or hazard detection, insert nops to ensure correct execution.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=6.5in]{p4_13_1.png}
+    \includegraphics[width=6.5in]{p4.13.1.png}
     \caption{Pipeline with inserted nops}
 \end{figure}
 
