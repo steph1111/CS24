@@ -1,0 +1,198 @@
+\documentclass[fleqn]{article}
+
+%%%%%%%%%%%%%%%%%%%%% Pre-document %%%%%%%%%%%%%%%%%%%%%
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{float}
+\usepackage{array}
+\usepackage{nicematrix}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{scrextend}
+\usepackage{karnaugh-map}
+
+\setlength{\parindent}{0pt} % Remove auto paragraph indents
+\renewcommand\labelitemi{{\boldmath$\cdot$}}
+\setlength{\mathindent}{0pt}  
+
+% Get rid of those big margins
+\usepackage[margin=1in]{geometry}
+\newlength\titleindent
+\setlength\titleindent{2cm}
+
+\begin{document}
+
+\pagestyle{fancy}
+% Header
+\fancyhead{}
+\fancyhead[L]{Stephanie L'Heureux}
+\fancyhead[R]{\thepage}
+% No page numbers for footer
+\fancyfoot{}
+
+\begin{center}
+    \Large{\textbf{Floating Point and Karnaugh Map}}\\
+\end{center}
+\vspace{0.25in}
+
+\textbf{1.} Give the float (32 bit) representation
+of the following values. Your final answer should be in hexadecimal. 
+
+\vspace{5mm}
+
+\textbf{1a.} Give the float (32 bit) representation of 14.125.
+\begin{addmargin}[0.15cm]{0cm}
+\[14.125_{\text{ten}} = \frac{113}{8}_{\text{ten}} = \frac{113}{2^3}_{\text{ten}} \Rightarrow 1110.001_{\text{two}} \times 2^0 \Rightarrow 1.110001_{\text{two}} \times 2^3 \]
+\begin{table}[H]
+    \setlength{\tabcolsep}{4pt}
+    \fontsize{7pt}{8pt}\selectfont
+    \begin{tabular}{c|cccccccc|ccccccccccccccccccccccc}
+        s & \multicolumn{8}{c|}{exponent} & \multicolumn{23}{c}{fraction} \\
+        31 & 30 & 29 & 28 & 27 & 26 & 25 & 24 & 23 & 22 & 21 & 20 & 19 & 18 & 17 & 16 & 15 & 14 & 13 & 12 & 11 & 10 & 9 & 8 & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+        0  & 1  & 0  & 0  &  0 &  0 &  0 &  1 &  0 &  1 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+    \end{tabular}
+\end{table}
+\vspace{-0.25in}
+\[ \boxed{ 14.125\textsubscript{ten} = 0100 0001 0110 0010 0000 0000 0000 0000\textsubscript{two} } \]
+\end{addmargin}
+\vspace{0.5in}
+
+\textbf{1b.} Give the float (32 bit) representation -7.53125.
+\begin{addmargin}[0.15cm]{0cm}
+\[-7.53125_{\text{ten}} = \frac{-241}{32}_{\text{ten}} = \frac{-241}{2^5}_{\text{ten}} \Rightarrow -111.10001_{\text{two}} \times 2^0 \Rightarrow -1.1110001_{\text{two}} \times 2^2 \]
+\begin{table}[H]
+    \setlength{\tabcolsep}{4pt}
+    \fontsize{7pt}{8pt}\selectfont
+    \begin{tabular}{c|cccccccc|ccccccccccccccccccccccc}
+        s & \multicolumn{8}{c|}{exponent} & \multicolumn{23}{c}{fraction} \\
+        31 & 30 & 29 & 28 & 27 & 26 & 25 & 24 & 23 & 22 & 21 & 20 & 19 & 18 & 17 & 16 & 15 & 14 & 13 & 12 & 11 & 10 & 9 & 8 & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+        1  & 1  & 0  & 0  &  0 &  0 &  0 &  0 &  1 &  1 & 1 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+    \end{tabular}
+\end{table}
+\vspace{-0.25in}
+\[ \boxed{ -7.53125_{\text{ten}} = 1100 0000 1111 0001 0000 0000 0000 0000_{\text{two}}} \]
+\end{addmargin}
+\vspace{0.5in}
+
+\textbf{1c.} Give the float (32 bit) representation 8675.309.
+\begin{addmargin}[0.15cm]{0cm}
+\[8675.309_{\text{ten}} \approx \frac{8883516}{1024}_{\text{ten}} = \frac{8883516}{2^{10}}_{\text{ten}} \Rightarrow 10000111100011.01001111_{\text{two}} \times 2^0 \Rightarrow 1.000011110001101001111_{\text{two}} \times 2^{13} \]
+\begin{table}[H]
+    \setlength{\tabcolsep}{4pt}
+    \fontsize{7pt}{8pt}\selectfont
+    \begin{tabular}{c|cccccccc|ccccccccccccccccccccccc}
+        s & \multicolumn{8}{c|}{exponent} & \multicolumn{23}{c}{fraction} \\
+        31 & 30 & 29 & 28 & 27 & 26 & 25 & 24 & 23 & 22 & 21 & 20 & 19 & 18 & 17 & 16 & 15 & 14 & 13 & 12 & 11 & 10 & 9 & 8 & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+        0  & 1  & 0  & 0  &  0 &  1 &  1 &  0 &  0 &  0 & 0  & 0  & 0  &  1 &  1 & 1  &  1 &  0 & 0  & 0  &  1 &  1 & 0 & 1 & 0 & 0 & 1 & 1 & 1 & 1 & 0 & 0
+    \end{tabular}
+\end{table}
+\vspace{-0.25in}
+\[ \boxed{8675.309_{\text{ten}} = 0100 0110 0000 0111 1000 1101 0011 1100_{\text{two}}} \]
+\end{addmargin}
+
+\pagebreak
+
+\textbf{2.} Give the decimal representation of the following 32 bit float values.
+
+\vspace{5mm}
+
+\textbf{2a.} Give the decimal representation of 00111111000001000000000000000000
+\begin{addmargin}[0.15cm]{0cm}
+\begin{table}[H]
+    \setlength{\tabcolsep}{4pt}
+    \fontsize{7pt}{8pt}\selectfont
+    \begin{tabular}{c|cccccccc|ccccccccccccccccccccccc}
+        s & \multicolumn{8}{c|}{exponent} & \multicolumn{23}{c}{fraction} \\
+        31 & 30 & 29 & 28 & 27 & 26 & 25 & 24 & 23 & 22 & 21 & 20 & 19 & 18 & 17 & 16 & 15 & 14 & 13 & 12 & 11 & 10 & 9 & 8 & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+        0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+    \end{tabular}
+\end{table}
+\vspace{-0.25in}
+\[ (-1)^s \times (1 + \text{Fraction}) \times  2^{\text{Exponent - Bias}} = (-1)^0 \times (1 + 0.00001)_{\text{two}} \times 2^{(126 - 127)} = 1.00001_{\text{two}}\times 2^{-1} = \]
+\[100001_{\text{two}}\times 2^{-6} = 33_{\text{ten}}\times 2^{-6} = 0.515625_{\text{ten}}\]
+\[ \boxed{0111111000001000000000000000000_{\text{two}} = 0.515625_{\text{ten}}} \]
+
+\end{addmargin}
+\vspace{0.5in}
+
+\textbf{2b.} Give the decimal representation of 01000010110111100000000000000000
+\begin{addmargin}[0.15cm]{0cm}
+\begin{table}[H]
+    \setlength{\tabcolsep}{4pt}
+    \fontsize{7pt}{8pt}\selectfont
+    \begin{tabular}{c|cccccccc|ccccccccccccccccccccccc}
+        s & \multicolumn{8}{c|}{exponent} & \multicolumn{23}{c}{fraction} \\
+        31 & 30 & 29 & 28 & 27 & 26 & 25 & 24 & 23 & 22 & 21 & 20 & 19 & 18 & 17 & 16 & 15 & 14 & 13 & 12 & 11 & 10 & 9 & 8 & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+        0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+    \end{tabular}
+\end{table}
+\vspace{-0.25in}
+\[ (-1)^s \times (1 + \text{Fraction}) \times  2^{\text{Exponent - Bias}} = (-1)^0\times(1 + 0.101111)_{\text{two}} \times 2^{133 - 127} = 1.101111_{\text{two}}\times 2^{6} = \]
+\[ 1101111_{\text{two}}\times 2^{0} = 111_{\text{ten}}\times 2^{0} = 111_{\text{ten}}\]
+\boxed{01000010110111100000000000000000\textsubscript{two} = 111\textsubscript{ten}}
+\end{addmargin}
+\vspace{0.5in}
+
+\textbf{2c.} Give the decimal representation of 11000010111110100100000000000000
+\begin{addmargin}[0.15cm]{0cm}
+\begin{table}[H]
+    \setlength{\tabcolsep}{4pt}
+    \fontsize{7pt}{8pt}\selectfont
+    \begin{tabular}{c|cccccccc|ccccccccccccccccccccccc}
+        s & \multicolumn{8}{c|}{exponent} & \multicolumn{23}{c}{fraction} \\
+        31 & 30 & 29 & 28 & 27 & 26 & 25 & 24 & 23 & 22 & 21 & 20 & 19 & 18 & 17 & 16 & 15 & 14 & 13 & 12 & 11 & 10 & 9 & 8 & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+        1 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+    \end{tabular}
+\end{table}
+\vspace{-0.25in}
+\[(-1)^s \times (1 + \text{Fraction}) \times  2^{\text{Exponent - Bias}} = (-1)^1 \times(1 + 0.111101001)_{\text{two}} \times 2^{133 - 127} = -1.111101001_{\text{two}}\times 2^{6} = \]
+\[-1111101001_{\text{two}}\times 2^{-3} = -1001_{\text{ten}}\times 2^{-3} = -125.125_{\text{ten}}\]
+\boxed{11000010111110100100000000000000\textsubscript{two} = -125.125\textsubscript{ten}}
+\end{addmargin}
+\vspace{0.5in}
+
+\pagebreak
+
+\textbf{3.} Give the equation (in Sum-Of-Products form) for this truth table,
+then use a Karnaugh map to simplify. Show your table and final equation.
+
+$$ \bar{A}BC + A\bar{B}C + ABC$$
+
+\vspace{5mm}
+
+\begin{center}
+    \begin{karnaugh-map}[2][4][1][$C$][$AB$]
+        \minterms{3,5,7}
+        \maxterms{0,1,2,4,6}
+        \implicant{3}{7}
+        \implicant{7}{5}
+    \end{karnaugh-map}    
+\end{center}
+\vspace{-0.125in}
+$$\boxed{AC + BC}$$
+\vspace{0.5in}
+
+\textbf{4.} Give the equation (in Sum-Of-Products form) for this truth table,
+then use a Karnaugh map to simplify. Show your table and final equation.
+
+$$\bar{A}\bar{B}\bar{C}D + \bar{A}\bar{B}CD + \bar{A}B\bar{C}D + \bar{A}BC\bar{D} + A\bar{B}\bar{C}D + A\bar{B}C\bar{D} + AB\bar{C}D + ABC\bar{D}$$
+
+\vspace{5mm}
+
+\begin{center}
+    \begin{karnaugh-map}[4][4][1][$CD$][$AB$]
+        \minterms{1,3,5,6,9,10,13,14}
+        \maxterms{0,2,4,7,8,11,12,15}
+        \implicant{1}{9}
+        \implicant{1}{3}
+        \implicant{6}{14}
+        \implicant{14}{10}
+    \end{karnaugh-map}    
+\end{center}
+\vspace{-0.125in}
+
+$$\boxed{\bar{C}D + \bar{A}\bar{B}D + BC\bar{D} + AC\bar{D}}$$
+
+\end{document}

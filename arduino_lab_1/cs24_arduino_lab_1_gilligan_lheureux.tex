@@ -1,0 +1,111 @@
+\documentclass[fleqn]{article}
+
+%%%%%%%%%%%%%%%%%%%%% Pre-document %%%%%%%%%%%%%%%%%%%%%
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{float}
+\usepackage{array}
+\usepackage{nicematrix}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{scrextend}
+
+\lstdefinelanguage[RISC-V]{Assembler} {
+  alsoletter={.},
+  alsodigit={0x},
+  morekeywords=[1]{ % instructions
+    lw, sw,
+    sll, slli,
+    add, addi, sub,
+    xor, xori, or, ori, and, andi,
+    beq, bne, blt, bge, bltu, bgeu,
+    j, jr, jal, jalr, ret,
+  },
+  morekeywords=[2]{ % registers
+    x0, x1, x2, x3, x4, x5, x6, x7, x7, x8, x9, x10,
+    x11, x12, x13, x14, x15, x16, x17, x18, x19, x20, 
+    x21, x22, x23, x24, x25, x26, x27, x28, x29, x30, x31 },
+  morecomment=[l]{;},   % mark ; as line comment start
+  morecomment=[l]{\#},  % as well as #
+}
+
+% define some colors
+\definecolor{pink}{rgb}{204, 0, 68}
+\definecolor{blue}{rgb}{77, 148, 255}
+
+\lstset{
+  % listings sonderzeichen (for german weirdness)
+  literate={ö}{{\"o}}1
+           {ä}{{\"a}}1
+           {ü}{{\"u}}1,
+  basicstyle=\ttfamily,
+  breaklines=true,
+  commentstyle=\color{gray!50!black},
+  keywordstyle=[1]\color{pink},
+  % keywordstyle=[2]\color{blue}, 
+  stringstyle=\color{mauve},                    % strings are from the telekom
+  language=[RISC-V]Assembler,                   % all code is RISC-V
+  tabsize=4,                                    % indent tabs with 4 spaces
+  showstringspaces=false                        % do not replace spaces with weird underlines
+}
+
+
+\setlength{\parindent}{0pt} % Remove auto paragraph indents
+\renewcommand\labelitemi{{\boldmath$\cdot$}}
+\setlength{\mathindent}{0pt}  
+
+% Get rid of those big margins
+\usepackage[margin=1in]{geometry}
+\newlength\titleindent
+\setlength\titleindent{2cm}
+
+\begin{document}
+
+\pagestyle{fancy}
+% Header
+\fancyhead{}
+\fancyhead[L]{Liam Gilligan, Stephanie L'Heureux}
+\fancyhead[R]{\thepage}
+% No page numbers for footer
+\fancyfoot{}
+
+\begin{center}
+    \Large{\textbf{Arduino Lab 1}}\\
+\end{center}
+\vspace{0.25in}
+
+\section{Introduction}
+This report discusses the setup, challenges encountered, and solutions implemented in completing the First Arduino Lab. The lab was successful, meeting the specifications by controlling seven LEDs which represented the least significant bits of each ASCII representation of a letter in string, with the sequence advancing to the next letter upon a button press.
+\section{Setup}
+\subsection{Required components}
+\begin{itemize}
+    \item[(1)] Solderless breadboard
+    \item[(1)] Pushbutton
+    \item[(7)] LEDs
+    \item[(8)] Resistors
+    \item[(15)] Wires
+    \item[(1)] USB A/B Cable
+    \item[(1)] Arduino Uno
+\end{itemize}
+\subsection{Pre-lab exercises}
+The setup included the completion of two preliminary exercises: one involving blinking an LED, and the other controlling the LED using a push button to ensure familiarity with the Arduino and components. Given the lab group’s strong background in hardware interfacing, the exercises were completed with ease but provided a welcomed refresher on Arduino basics. 
+\subsection{Lab setup}
+The setup for the primary lab consisted of identifying all the required components and assembling the circuit. During the assembly, a minor issue was encountered in which where the cathode and anode legs of a few LEDs were reversed, causing some LEDs to remain off. This was quickly identified by setting all the LEDs to high on setup to confirm their functionality. Additionally, a multimeter was used to verify that the circuit was fully connected and performing as expected.
+
+\section{Challenges}
+Overall, the lab went smoothly, with only minor syntactical and logical errors. These issues were resolved, often by making the serial monitor to observe and debug the program's behavior.
+
+The most noteworthy issue occurred after the lab itself was completed, during the process of preparing the .ino file for submission. While renaming the file, it was mistakenly overwritten. As this action was performed on a Linux system from the terminal, there was no trivial way to revert the action and recover the lost content. 
+\section{Solutions}
+
+tbd
+\section{Conclusion}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=6in,height=4.5in]{arduino_lab_1_img.jpg}
+        \caption{Completed lab with some LEDs illuminated and some dark.}
+    \end{figure}
+
+\end{document}

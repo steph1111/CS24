@@ -1,0 +1,161 @@
+\documentclass[fleqn]{article}
+
+%%%%%%%%%%%%%%%%%%%%% Pre-document %%%%%%%%%%%%%%%%%%%%%
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{float}
+\usepackage{array}
+\usepackage{nicematrix}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{scrextend}
+
+\lstdefinelanguage[RISC-V]{Assembler} {
+  alsoletter={.},
+  alsodigit={0x},
+  morekeywords=[1]{ % instructions
+    lw, sw,
+    sll, slli,
+    add, addi, sub,
+    xor, xori, or, ori, and, andi,
+    beq, bne, blt, bge, bltu, bgeu,
+    j, jr, jal, jalr, ret,
+  },
+  morekeywords=[2]{ % registers
+    x0, x1, x2, x3, x4, x5, x6, x7, x7, x8, x9, x10,
+    x11, x12, x13, x14, x15, x16, x17, x18, x19, x20, 
+    x21, x22, x23, x24, x25, x26, x27, x28, x29, x30, x31 },
+  morecomment=[l]{;},   % mark ; as line comment start
+  morecomment=[l]{\#},  % as well as #
+}
+
+% define some colors
+\definecolor{pink}{rgb}{204, 0, 68}
+\definecolor{blue}{rgb}{77, 148, 255}
+
+\lstset{
+  % listings sonderzeichen (for german weirdness)
+  literate={ö}{{\"o}}1
+           {ä}{{\"a}}1
+           {ü}{{\"u}}1,
+  basicstyle=\ttfamily,
+  breaklines=true,
+  commentstyle=\color{gray!50!black},
+  keywordstyle=[1]\color{pink},
+  % keywordstyle=[2]\color{blue}, 
+  stringstyle=\color{mauve},                    % strings are from the telekom
+  language=[RISC-V]Assembler,                   % all code is RISC-V
+  tabsize=4,                                    % indent tabs with 4 spaces
+  showstringspaces=false                        % do not replace spaces with weird underlines
+}
+
+
+\setlength{\parindent}{0pt} % Remove auto paragraph indents
+\renewcommand\labelitemi{{\boldmath$\cdot$}}
+\setlength{\mathindent}{0pt}  
+
+% Get rid of those big margins
+\usepackage[margin=1in]{geometry}
+\newlength\titleindent
+\setlength\titleindent{2cm}
+
+\begin{document}
+
+\pagestyle{fancy}
+% Header
+\fancyhead{}
+\fancyhead[L]{Stephanie L'Heureux}
+\fancyhead[R]{\thepage}
+% No page numbers for footer
+\fancyfoot{}
+
+\begin{center}
+    \Large{\textbf{Chapter 3 Exercises}}\\
+\end{center}
+\vspace{0.25in}
+
+\textbf{3.3} [10] \textlangle 3.2\textrangle \; Convert 5ED4 into a binary number. What makes base 16 (hexadecimal) an attractive numbering system for representing values in computers?
+\vspace{0.125in}
+
+\begin{addmargin}[0.15cm]{0cm}
+\begin{table}[H]
+    \begin{tabular}{l|llll}
+        hex & 5 & E & D & 4 \\
+        ten & 5 & 14 & 13 & 4 \\
+        two & 0100 & 1110 & 1101 & 0100
+    \end{tabular}
+\end{table}
+
+5ED4\textsubscript{hex} is 0100 1110 1101 0100\textsubscript{two}. 
+Hexadecimal is the base-16 number system, a numeric representation format in which each digit can take on 16 values, ranging from 0 to F. Each hexadecimal digit therefore corresponds directly to 4 bits, making it convenient for representing binary values, as the translation between the two systems is straightforward. Hexadecimal is particularly useful in computing applications. It offers a more concise format than binary while maintaining easy conversion between the two number systems.
+\end{addmargin}
+
+\vspace{0.5in}
+\textbf{3.20} [5] \textlangle 3.5\textrangle \; What decimal number does the bit pattern 0x0C000000 represent if it is a two's complement integer? An unsigned integer?
+\vspace{0.125in}
+
+\begin{addmargin}[0.15cm]{0cm}
+\begin{table}[H]
+    \begin{tabular}{l|llllllll}
+        & $16^7$ & $16^6$ & $16^5$ & $16^4$ & $16^3$ & $16^2$ & $16^1$ & $16^0$ \\ 
+        hex & 0 & C & 0 & 0 & 0 & 0 & 0 & 0 \\
+        two & 0000 & 1100 & 0000 & 0000 & 0000 & 0000 & 0000 & 0000
+    \end{tabular}
+\end{table}
+$12 \times 16^6 = 201,326,592$
+
+\vspace{0.125in}
+Two's complement integer: $201,326,592_{\text{ten}}$
+
+Unsigned integer: $201,326,592_{\text{ten}}$
+
+\end{addmargin}
+
+\vspace{0.5in}
+\textbf{3.21} [10] \textlangle 3.5\textrangle \; If the bit pattern 0x0000006F is placed into the Instruction Register, what RISC-V instruction will be executed?
+\begin{addmargin}[0.15cm]{0cm}
+\begin{table}[H]
+    \begin{tabular}{l|llllllll}
+        & $16^7$ & $16^6$ & $16^5$ & $16^4$ & $16^3$ & $16^2$ & $16^1$ & $16^0$ \\ 
+        hex & 0 & 0 & 0 & 0 & 0 & 0 & 6 & F \\
+        two & 0000 & 0000 & 0000 & 0000 & 0000 & 0000 & 0110 & 1111
+    \end{tabular}
+\end{table}
+The last 7 bits corresponds to the optcode of the instruction. The optcode denotes the the operation and format of the instruction. It can be determined the instruction is \verb|jal x0,0(0)|, as \verb|jal| is the only RISC-V instruction matching the optcode 1101111\textsubscript{two}.
+
+\end{addmargin}
+
+\vspace{0.5in}
+\textbf{3.22} [10] \textlangle 3.5\textrangle \; What decimal number does the bit pattern 0x0C000000 represent if it is a floating point number? Use the IEEE 754 standard.
+\begin{addmargin}[0.15cm]{0cm}
+\begin{table}[H]
+    \setlength{\tabcolsep}{4pt}
+    \fontsize{7pt}{8pt}\selectfont
+    \begin{tabular}{c|cccccccc|ccccccccccccccccccccccc}
+        s & \multicolumn{8}{c|}{exponent} & \multicolumn{23}{c}{fraction} \\
+        31 & 30 & 29 & 28 & 27 & 26 & 25 & 24 & 23 & 22 & 21 & 20 & 19 & 18 & 17 & 16 & 15 & 14 & 13 & 12 & 11 & 10 & 9 & 8 & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+        0 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+    \end{tabular}
+\end{table}
+\[ (-1)^s \times (1 + \text{Fraction}) \times  2^{\text{Exponent - Bias}} = (-1)^0 \times (1 + 0) \times 2^{(24 - 127)} = 2^{-103} = 9.86076132 \times 10^{-32}_{\text{ten}}\]
+\end{addmargin}
+
+\vspace{0.5in}
+\textbf{3.23} [10] \textlangle 3.5\textrangle \; Write down the binary representation of the decimal number 63.25 assuming the IEEE 754 single precision format.
+\begin{addmargin}[0.15cm]{0cm}
+\[63.25_{\text{ten}} = \frac{253}{4}_{\text{ten}} = \frac{253}{2^2}_{\text{ten}} \Rightarrow 1111 11.01_{\text{two}} \times 2^0 \Rightarrow 1.111 1101_{\text{two}} \times 2^5 \]
+\begin{table}[H]
+    \setlength{\tabcolsep}{4pt}
+    \fontsize{7pt}{8pt}\selectfont
+    \begin{tabular}{c|cccccccc|ccccccccccccccccccccccc}
+        s & \multicolumn{8}{c|}{exponent} & \multicolumn{23}{c}{fraction} \\
+        31 & 30 & 29 & 28 & 27 & 26 & 25 & 24 & 23 & 22 & 21 & 20 & 19 & 18 & 17 & 16 & 15 & 14 & 13 & 12 & 11 & 10 & 9 & 8 & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+        0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+    \end{tabular}
+\end{table}
+63.25\textsubscript{ten} = 0100 0010 0111 1101 0000 0000 0000 0000\textsubscript{two}
+\end{addmargin}
+
+\end{document} 

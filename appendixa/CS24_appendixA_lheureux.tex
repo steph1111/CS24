@@ -1,0 +1,318 @@
+\documentclass[fleqn]{article}
+
+%%%%%%%%%%%%%%%%%%%%% Pre-document %%%%%%%%%%%%%%%%%%%%%
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{float}
+\usepackage{array}
+\usepackage{nicematrix}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{scrextend}
+\usepackage{bm}
+\usepackage{circuitikz}
+
+\lstdefinelanguage[RISC-V]{Assembler} {
+  alsoletter={.},
+  alsodigit={0x},
+  morekeywords=[1]{ % instructions
+    lw, sw,
+    sll, slli,
+    add, addi, sub,
+    xor, xori, or, ori, and, andi,
+    beq, bne, blt, bge, bltu, bgeu,
+    j, jr, jal, jalr, ret,
+  },
+  morekeywords=[2]{ % registers
+    x0, x1, x2, x3, x4, x5, x6, x7, x7, x8, x9, x10,
+    x11, x12, x13, x14, x15, x16, x17, x18, x19, x20, 
+    x21, x22, x23, x24, x25, x26, x27, x28, x29, x30, x31 },
+  morecomment=[l]{;},   % mark ; as line comment start
+  morecomment=[l]{\#},  % as well as #
+}
+
+% define some colors
+\definecolor{pink}{rgb}{204, 0, 68}
+\definecolor{blue}{rgb}{77, 148, 255}
+
+\lstset{
+  % listings sonderzeichen (for german weirdness)
+  literate={ö}{{\"o}}1
+           {ä}{{\"a}}1
+           {ü}{{\"u}}1,
+  basicstyle=\ttfamily,
+  breaklines=true,
+  commentstyle=\color{gray!50!black},
+  keywordstyle=[1]\color{pink},
+  % keywordstyle=[2]\color{blue}, 
+  stringstyle=\color{mauve},                    % strings are from the telekom
+  language=[RISC-V]Assembler,                   % all code is RISC-V
+  tabsize=4,                                    % indent tabs with 4 spaces
+  showstringspaces=false                        % do not replace spaces with weird underlines
+}
+
+
+\setlength{\parindent}{0pt} % Remove auto paragraph indents
+\renewcommand\labelitemi{{\boldmath$\cdot$}}
+\setlength{\mathindent}{0pt}  
+
+% Get rid of those big margins
+\usepackage[margin=1in]{geometry}
+\newlength\titleindent
+\setlength\titleindent{2cm}
+
+\begin{document}
+
+\pagestyle{fancy}
+% Header
+\fancyhead{}
+\fancyhead[L]{Stephanie L'Heureux}
+\fancyhead[R]{\thepage}
+% No page numbers for footer
+\fancyfoot{}
+
+\begin{center}
+    \Large{\textbf{Appendix A Exercises}}\\
+\end{center}
+\vspace{0.25in}
+
+\textbf{A.1} [10] \textlangle A.2\textrangle \; In addition to the basic laws we discussed in this section, there are two important theorems, called DeMorgan's theorems:
+$$\overline{A + B} = \overline{A} \cdot \overline{B} \text{ and } \overline{A \cdot B} = \overline{A} + \overline{B}$$
+Prove DeMorgan's theorems with a truth table of the form:
+
+\begin{table}[H]
+\centering
+    \begin{tabular}{cc|cc|cc|cc}
+    \bm{$A$} & \bm{$B$} & $\bm{\overline{A}}$ & $\bm{\overline{B}}$ & $\bm{\overline{A + B}}$ & $\bm{\overline{A} \cdot \overline{B}}$ & $\bm{\overline{A \cdot B}}$ & $\bm{\overline{A} + \overline{B}}$ \\\hline
+    0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 \\
+    0 & 1 & 1 & 0 & 0 & 0 & 1 & 1 \\
+    1 & 0 & 0 & 1 & 0 & 0 & 1 & 1 \\
+    1 & 1 & 0 & 0 & 0 & 0 & 0 & 0
+    \end{tabular}
+\caption{DeMorgan's Theorems}
+\end{table}
+
+\vspace{0.125in}
+\begin{addmargin}[0.15cm]{0cm}
+The table above is given in the text. Note that columns $\overline{A + B}$  and $\overline{A} \cdot \overline{B}$ contain the same values and $\overline{A \cdot B}$ and columns $\overline{A} + \overline{B}$ also contain the same values, thus proving DeMorgan's Theorems.
+\end{addmargin}
+
+\vspace{0.5in}
+\textbf{A.3} [10] \textlangle A.2\textrangle \; Show that there are $2^n$ entries in a truth table for a function with $n$ inputs.
+\vspace{0.125in}
+\begin{addmargin}[0.15cm]{0cm}
+    Let boolean function $f$ with $n$ inputs be written as:
+    $$f(x_1, x_2,\; ... \; , x_{n-1}, x_n)$$
+    Each input $x_i$ can take on one of two values, 0 or 1. The total number of input combinations is given by the product of the possibilities for each of the $n$ inputs:
+    $$\prod_{i=1}^{n} 2 = 2 \times 2 \times ... \times 2 \times 2 = 2^n$$
+    Therefore, the number of different input combinations is $2^n$, and since each row in a truth table corresponds to one unique combination of inputs, there are $2^n$ entries in a truth table for a function with $n$ inputs.
+    
+    \vspace{0.125in}
+    Example where $n = 3$:
+    \begin{table}[H]
+\centering
+    \begin{tabular}{r|r r r}
+        \multicolumn{1}{l}{} & \multicolumn{1}{c}{$\bm{x_1}$} & \multicolumn{1}{c}{$\bm{x_2}$} & \multicolumn{1}{c}{$\bm{x_3}$} \\ \cline{2-4} 
+        \multicolumn{1}{r|}{\textbf{1}} & 0 & 0 & 0 \\
+        \multicolumn{1}{r|}{\textbf{2}} & 0 & 0 & 1 \\
+        \multicolumn{1}{r|}{\textbf{3}} & 0 & 1 & 0 \\
+        \multicolumn{1}{r|}{\textbf{4}} & 0 & 1 & 1 \\
+        \multicolumn{1}{r|}{\textbf{5}} & 1 & 0 & 0 \\
+        \multicolumn{1}{r|}{\textbf{6}} & 1 & 0 & 1 \\
+        \multicolumn{1}{r|}{\textbf{7}} & 1 & 1 & 0 \\
+        \multicolumn{1}{r|}{\textbf{8}} & 1 & 1 & 1 \\
+    \end{tabular}
+    \caption{Truth table with $n = 3$ inputs}
+\end{table}
+
+    Table contains $2^3 = 8$ rows.
+\end{addmargin}
+
+\pagebreak
+
+\textbf{A.5} [15] \textlangle A.2\textrangle \; Prove that the NOR gate is universal by showing how to build the AND, OR, and NOT functions using a two-input NOR gate.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{cc|c}
+    \textbf{a} & \textbf{b} & \textbf{NOR} \\ \hline
+    0 & 0 & 1 \\ 
+    0 & 1 & 0 \\ 
+    1 & 0 & 0 \\ 
+    1 & 1 & 0 \\ 
+\end{tabular}
+\caption{NOR gate}
+\end{table}
+
+
+\begin{multicols}{3}
+    % NOT
+    \begin{center}
+    \textbf{NOT}
+    \vspace{0.25 in}
+        
+    \begin{circuitikz}
+        \node[nor port, number inputs=2] (NOR) at (1, 0) {};
+        % Connect inputs for NOR
+        \path (NOR.in 1) -- (NOR.in 2)
+        coordinate[pos=0.5] (NOR_in);
+        \draw (NOR_in) -- ++(-0.55, 0);
+        \node[left] at (-1, 0) {$A$};
+        \draw (NOR.in 1) -- (NOR.in 2);
+        % Output
+        \draw (NOR.out) -- node[above]{$\overline{A}$} ($(NOR) + (1, 0)$);
+    \end{circuitikz}
+    \end{center}
+    By the truth table for a NOR gate (Table 3), when both inputs $A$ and $B$ are 0, the output is 1, and when both inputs are 1, the output is 0. This behavior mirrors that of a NOT operation. A NOT gate can therefore be created by connecting both inputs of a NOR gate.
+
+    \columnbreak
+    % OR
+    \begin{center}
+    \textbf{OR}
+    \vspace{0.25 in}
+    
+    \begin{circuitikz}
+        \node[nor port, number inputs=2] (NOR_1) at (0, 0) {};
+        \node[nor port, number inputs=2] (NOR_2) at (2, 0) {};
+        % Inputs for NOR 1
+        \node[left] at (NOR_1.in 1) {$A$};
+        \node[left] at (NOR_1.in 2) {$B$};
+        % Connect inputs for NOR 2
+        \draw (NOR_2.in 1) -- (NOR_2.in 2);
+        % Connect NOR_1 and NOR_2
+        \path (NOR_2.in 1) -- (NOR_2.in 2)
+        coordinate[pos=0.5] (NOR_2_in);
+        \draw (NOR_1.out) -- (NOR_2_in);
+        % Output
+        \draw (NOR_2.out) -- node[above]{$A + B$} ($(NOR_2) + (1, 0)$);
+    \end{circuitikz}
+    \end{center}
+    The NOR gate produces the inverse of the OR operation. By applying a NOT operation (constructed using NOR gates) to the output of a NOR gate, the OR operation is implemented.
+    
+    \columnbreak
+    \begin{center}
+    \textbf{AND}
+    \vspace{0.25 in}
+
+    \begin{circuitikz}
+    % NOT
+    \node[nor port, number inputs=2] (NOR_1) at (1, 0) {};
+    \path (NOR_1.in 1) -- (NOR_1.in 2)
+    coordinate[pos=0.5] (NOR_1_in);
+    \draw (NOR_1_in) -- ++(-0.55, 0);
+    \node[left] at (-1, 0) {$A$};
+    \draw (NOR_1.in 1) -- (NOR_1.in 2);
+    \draw (NOR_1.out) -- ($(NOR_1) + (0.5, 0)$);
+
+    % NOT
+    \node[nor port, number inputs=2] (NOR_2) at (1, -1.5) {};
+    \path (NOR_2.in 1) -- (NOR_2.in 2)
+    coordinate[pos=0.5] (NOR_2_in);
+    \draw (NOR_2_in) -- ++(-0.55, 0);
+    \node[left] at (-1, -1.5) {$B$};
+    \draw (NOR_2.in 1) -- (NOR_2.in 2);
+    \draw (NOR_2.out) -- ($(NOR_2) + (0.5, 0)$);
+
+    % NOR
+    \node[nor port, number inputs=2] (NOR_3) at (3, -0.75) {};
+    \draw ($(NOR_1) + (0.5, 0)$) -- (NOR_3.in 1);
+    \draw ($(NOR_2) + (0.5, 0)$) -- (NOR_3.in 2);
+    \draw (NOR_3.out) -- node[above]{$A \cdot B$} ($(NOR_3) + (1, 0)$);
+\end{circuitikz}
+\end{center}
+
+$\overline{\overline{A} + \overline{B}} = \overline{\overline{A}} \cdot \overline{\overline{B}} = A \cdot B$ 
+    
+By DeMorgan's Theorem ($\overline{A} \cdot \overline{B} = \overline{A + B}$)
+\end{multicols}
+
+
+\vspace{0.5in}
+\textbf{A.7} [10] \textlangle A.2, A.3\textrangle \; Construct the truth table for a four-input odd-parity function (see page A-65 for a description of parity).
+\vspace{0.125in}
+\begin{addmargin}[0.15cm]{0cm}
+\begin{table}[H]
+\centering
+\begin{tabular}{cccc|c}
+\textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{Parity} \\ \hline
+0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 & 1 \\
+0 & 0 & 1 & 0 & 1 \\
+0 & 0 & 1 & 1 & 0 \\
+0 & 1 & 0 & 0 & 1 \\
+0 & 1 & 0 & 1 & 0 \\
+0 & 1 & 1 & 0 & 0 \\
+0 & 1 & 1 & 1 & 1 \\
+1 & 0 & 0 & 0 & 1 \\
+1 & 0 & 0 & 1 & 0 \\
+1 & 0 & 1 & 0 & 0 \\
+1 & 0 & 1 & 1 & 1 \\
+1 & 1 & 0 & 0 & 0 \\
+1 & 1 & 0 & 1 & 1 \\
+1 & 1 & 1 & 0 & 1 \\
+1 & 1 & 1 & 1 & 0
+\end{tabular}
+\caption{Four-input odd-parity function}
+\end{table}
+\end{addmargin}
+
+\vspace{0.5in}
+
+\textbf{A.17} [5] \textlangle A.2, A.3\textrangle \; Show a truth table for a multiplexor (inputs A, B, and S; output C), using don't cares to simplify the table where possible.
+\vspace{0.125in}
+
+\begin{multicols}{3}
+\begin{table}[H]
+\centering
+\begin{tabular}{ccc|c}
+\textbf{A} & \textbf{B} & \textbf{S} & \textbf{C} \\ \hline
+0 & 0 & 0 & 0 \\ 
+0 & 0 & 1 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 1 & 1 & 1 \\
+1 & 0 & 0 & 1 \\
+1 & 0 & 1 & 0 \\
+1 & 1 & 0 & 1 \\
+1 & 1 & 1 & 1
+\end{tabular}
+% \caption{2-1 MUX}
+\end{table}
+
+\columnbreak
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{ccc|c}
+    \textbf{A} & \textbf{B} & \textbf{S} & \textbf{C} \\ \hline
+    0 & X & 0 & 0 \\
+    X & 0 & 1 & 0 \\
+    1 & X & 0 & 1 \\
+    X & 1 & 1 & 1
+    \end{tabular}
+    \end{table}
+
+\columnbreak
+
+\begin{table}[H]
+\centering
+\begin{tabular}{c|c}
+\textbf{S} & \textbf{C} \\ \hline
+0 & A \\
+1 & B
+\end{tabular}
+% \caption{2-1 MUX simplified}
+\end{table}
+\end{multicols}
+
+
+\begin{multicols}{3}
+\begin{center}Table 5: 2-1 MUX\end{center}
+\columnbreak
+\begin{center}Table 6: 2-1 MUX with \\don't cares\end{center}
+\columnbreak
+\begin{center}Table 7: 2-1 MUX simplified\end{center}
+\end{multicols}
+
+\end{document}

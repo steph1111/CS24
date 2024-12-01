@@ -1,0 +1,134 @@
+\documentclass[fleqn]{article}
+
+%%%%%%%%%%%%%%%%%%%%% Pre-document %%%%%%%%%%%%%%%%%%%%%
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{float}
+\usepackage{array}
+\usepackage{nicematrix}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+
+
+\lstdefinelanguage[RISC-V]{Assembler} {
+  alsoletter={.},
+  alsodigit={0x},
+  morekeywords=[1]{ % instructions
+    lw, sw,
+    sll, slli,
+    add, addi, sub,
+    xor, xori, or, ori, and, andi,
+    beq, bne, blt, bge, bltu, bgeu,
+    j, jr, jal, jalr, ret,
+  },
+  morekeywords=[2]{ % registers
+    x0, x1, x2, x3, x4, x5, x6, x7, x7, x8, x9, x10,
+    x11, x12, x13, x14, x15, x16, x17, x18, x19, x20, 
+    x21, x22, x23, x24, x25, x26, x27, x28, x29, x30, x31 },
+  morecomment=[l]{;},   % mark ; as line comment start
+  morecomment=[l]{\#},  % as well as #
+}
+
+% define some colors
+\definecolor{pink}{rgb}{204, 0, 68}
+\definecolor{blue}{rgb}{77, 148, 255}
+
+\lstset{
+  % listings sonderzeichen (for german weirdness)
+  literate={ö}{{\"o}}1
+           {ä}{{\"a}}1
+           {ü}{{\"u}}1,
+  basicstyle=\ttfamily,
+  breaklines=true,
+  commentstyle=\color{gray!50!black},
+  keywordstyle=[1]\color{pink},
+  % keywordstyle=[2]\color{blue}, 
+  stringstyle=\color{mauve},                    % strings are from the telekom
+  language=[RISC-V]Assembler,                   % all code is RISC-V
+  tabsize=4,                                    % indent tabs with 4 spaces
+  showstringspaces=false                        % do not replace spaces with weird underlines
+}
+
+
+\setlength{\parindent}{0pt} % Remove auto paragraph indents
+\renewcommand\labelitemi{{\boldmath$\cdot$}}
+\setlength{\mathindent}{0pt}  
+
+% Get rid of those big margins
+\usepackage[margin=1in]{geometry}
+\newlength\titleindent
+\setlength\titleindent{2cm}
+
+\begin{document}
+
+\pagestyle{fancy}
+% Header
+\fancyhead{}
+\fancyhead[L]{Stephanie L'Heureux}
+\fancyhead[R]{\thepage}
+% No page numbers for footer
+\fancyfoot{}
+
+\begin{center}
+    \Large{\textbf{Chapter 2 Exercises}}\\
+\end{center}
+\vspace{0.25in}
+
+\textbf{2.3} [5] \textlangle 2.2\textrangle \; For the following C statement, write the corresponding RISC-V assembly code. Assume that the variables \verb|f|, \verb|g|, \verb|h|, \verb|i|, and \verb|j| are assigned to registers \verb|x5|, \verb|x6|, \verb|x7|, \verb|x28|, and \verb|x29|, respectively. Assume that the base address of the arrays \verb|A| and \verb|B| are in registers \verb|x10| and \verb|x11|, respectively.
+
+\begin{verbatim}
+    B[8] = A[i-j];
+\end{verbatim}
+
+RISC-V Translation:
+\begin{lstlisting}
+    sub x5 x28, x29     # f = i - j
+    slli x5, x5, 2      # f = f << 2     (f = f * 4) 
+    add x6, x10, x5     # g = &A[i-j]
+    lw x6, 0(x6)        # g = A[i-j]
+    sw x6, 32(x11)      # B[8] = A[i-j]  (8 * 4 = 32)
+\end{lstlisting}
+
+\vspace{0.5in}
+
+\textbf{2.7} [5] \textlangle 2.2, 2.3\textrangle \; Translate the following C code to RISC-V. Assume that the variables \verb|f|, \verb|g|, \verb|h|, \verb|i|, and \verb|j| are assigned to registers \verb|x5|, \verb|x6|, \verb|x7|, \verb|x28|, and \verb|x29|, respectively. Assume that the base address of the arrays \verb|A| and \verb|B| are in registers \verb|x10| and \verb|x11|, respectively. Assume that the elements of the arrays \verb|A| and \verb|B| are 8-byte words:
+\begin{verbatim}
+    B[8] = A[i] + A[j];
+\end{verbatim}
+
+RISC-V Translation:
+\begin{lstlisting}
+    slli x28, x28, 2    # i = i << 2
+    add x5, x10, x28    # f = &A[i]
+    lw x5, 0(x5)        # f = A[i]
+    slli x29, x29, 2    # j = j << 2
+    add x6, x10, x29    # g = &A[j]
+    lw x6. 0(x6)        # g = A[j]
+    add x7, x5, x6      # h = f + g
+    sw x7, 32(x11)      # B[8] = h
+\end{lstlisting}
+
+\pagebreak
+
+\textbf{2.13} [5] \textlangle 2.5\textrangle \; Provide the instruction type and hexadecimal representation for the following instruction:
+\begin{lstlisting}
+    sw x5, 32(x30)
+\end{lstlisting}
+\vspace{0.25in}
+Instruction format S.
+\[0000001 \; 00101 \; 11110 \; 010  \; 00000 \; 0100011_{\text{two}} \Rightarrow 25F2023_{\text{hex}} \]
+
+\vspace{0.5in}
+
+
+\textbf{2.18} [10] \textlangle 2.6\textrangle \; Find the shortest sequence of RISC-V instructions that extracts bits 16 down to 11 from register \verb|x5| and uses the value of this field to replace bits 31 down to 26 in register \verb|x6| without changing the other bits of registers \verb|x5| or \verb|x6|. (Be sure to test your code using \verb|x5 = 0| and \verb|x6 = Oxffffffffffffffff|. Doing so may reveal a common oversight.)
+\begin{lstlisting}
+    andi x7, x5, 0x1F800        # Extract bits 16 to 11
+    slli x7, x7, 15             # Shift bits 16 to 11 to position 31 to 26 
+    andi x6, x6, 0x3FFFFFF      # Clear bits 31 to 26 
+    or x6, x6, x7               # Replace bits
+\end{lstlisting}
+
+\end{document} 
