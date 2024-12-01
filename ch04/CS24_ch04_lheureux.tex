@@ -101,7 +101,17 @@ executed instructions is as follows:
 
 \subsubsection*{4.5.1 [10] \textlangle 4.3\textrangle} In what fraction of cycles is the data memory used?
 \vspace{0.125in}
+\begin{addmargin}[0.15cm]{0cm}
+Data memory or the memory unit is a state element with inputs for addresses and the write data, 
+and a single output for the read result. This part of the data path is utilized for load 
+(\verb|lw|) and store (\verb|sw|) instructions. It is worth noting, the data memory is 
+different than the instruction memory in the data path. In a pipelined processor, there 
+will be four more cycles than the number of instructions, however as the number of 
+instructions increases towards $\infty$, those four make up an negligible fraction 
+of the total cycles. Therefore, the fraction of cycles in which data memory is used is: \[25\% + 10\% = 35\% \Rightarrow \frac{7}{20}\]
+\end{addmargin}
 
+\vspace{0.125in}
 \subsubsection*{4.8} In this exercise, we examine how pipelining affects the clock cycle time of the processor. Problems in
 this exercise assume that individual stages of the datapath have the following latencies:
 
