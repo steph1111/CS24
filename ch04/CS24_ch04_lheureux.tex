@@ -13,6 +13,8 @@
 \usepackage{scrextend}
 \usepackage{titlesec}
 \usepackage{colortbl}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
 
 \lstdefinelanguage[RISC-V]{Assembler} {
   alsoletter={.},
@@ -92,7 +94,7 @@ executed instructions is as follows:
     \centering
     \begin{tabular}{|c|c|c|c|c|c|}
     \hline
-    \rowcolor[HTML]{1391DB} 
+    \rowcolor[HTML]{79bde8} 
     add & addi & not & beq & lw & sw \\ \hline \hline
     20\% & 20\% & 0\% & 25\% & 25\% & 10\% \\ \hline
     \end{tabular}
@@ -111,6 +113,7 @@ instructions increases towards $\infty$, those four make up an negligible fracti
 of the total cycles. Therefore, the fraction of cycles in which data memory is used is: \[25\% + 10\% = 35\% \Rightarrow \frac{7}{20}\]
 \end{addmargin}
 
+
 \vspace{0.125in}
 \subsubsection*{4.8} In this exercise, we examine how pipelining affects the clock cycle time of the processor. Problems in
 this exercise assume that individual stages of the datapath have the following latencies:
@@ -119,7 +122,7 @@ this exercise assume that individual stages of the datapath have the following l
     \centering
     \begin{tabular}{|c|c|c|c|c|}
     \hline
-    \rowcolor[HTML]{1391DB} 
+    \rowcolor[HTML]{79bde8} 
     IF & ID & EX & MEM & WB \\ \hline \hline
     250ps & 350ps & 150ps & 300ps & 200ps \\ \hline
     \end{tabular}
@@ -130,7 +133,7 @@ Also, assume that instructions executed by the processor are broken down as foll
     \centering
     \begin{tabular}{|c|c|c|c|}
     \hline
-    \rowcolor[HTML]{1391DB} 
+    \rowcolor[HTML]{79bde8} 
     alu & beq & lw & sw  \\ \hline \hline
     45\% & 20\% & 20\% & 15\% \\ \hline
     \end{tabular}
@@ -148,7 +151,6 @@ Also, assume that instructions executed by the processor are broken down as foll
 \end{itemize}
 \vspace{0.125in}
 
-
 \subsubsection*{4.11} Consider the following loop:
 \begin{lstlisting}
     loop:
@@ -161,6 +163,7 @@ Also, assume that instructions executed by the processor are broken down as foll
 Assume that perfect branch prediction is used (no stalls due to control hazards), that there are no delay slots,
 and the pipeline has full forwarding support. Also, assume that many iterations of this loop are executed
 before the loop exists.
+
 
 \subsubsection*{4.11.1 [10] \textlangle 4.6\textrangle} Show a pipeline execution diagram for the third iteration of this loop, from the cycle in which we
 fetch the first instruction up to (but not including) the cycle in which we can fetch the first instruction of
@@ -181,9 +184,18 @@ is executed of a 5-stage pipelined datapath:
 
 
 \subsubsection*{4.13.1 [5] \textlangle 4.5\textrangle} If there is no forwarding or hazard detection, insert nops to ensure correct execution.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=6.5in]{p4_13_1.png}
+    \caption{Pipeline with inserted nops}
+\end{figure}
 
 \subsubsection*{4.13.2 [10] \textlangle 4.5\textrangle} How many cycles in total are needed to complete those instructions (including the nops that you
 inserted?) If regular forwarding is implemented, how many cycles are in the revised code in total?
+\begin{itemize}
+    \item[(a)] 14 cycles with nops.
+    \item[(b)] 9 cycles with forwarding.
+\end{itemize}
 \vspace{0.125in}
 
 

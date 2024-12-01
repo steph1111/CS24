@@ -6,3 +6,5 @@
 !*.tex
 !*.pdf
 !*.jpg
+!*.ino
+!*.png
