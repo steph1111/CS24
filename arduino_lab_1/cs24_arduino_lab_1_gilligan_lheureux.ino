@@ -81,7 +81,7 @@ void setup() {
 }
 
 /**
- * Loop body.
+ * Program body.
  */
 void loop() {
   display_name(liam);

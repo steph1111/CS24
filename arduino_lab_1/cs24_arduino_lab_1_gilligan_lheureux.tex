@@ -100,13 +100,12 @@ Overall, the lab went smoothly, with only minor syntactical and logical errors. 
 The most noteworthy issue occurred after the lab itself was completed, during the process of preparing the .ino file for submission. While renaming the file, it was mistakenly overwritten. As this action was performed on a Linux system from the terminal, there was no trivial way to revert the action and recover the lost content. 
 \section{Solutions}
 
-tbd
+It was concluded attempting to restore the overwritten file content on the Linux system would be a dead end. Therefore, attention was focused on extracting the code from the Arduino. However, this approach was also unsuccessful, as the source code is not stored on the device, only the binary. After evaluating the possibility of using a decompiler and reverse-engineering the original program, it was concluded that the process would be more trouble than it was worth. As a result, a new version of the code was written.
 \section{Conclusion}
     \begin{figure}[H]
         \centering
         \includegraphics[width=6in]{image.jpg}
         \caption{Completed lab with some LEDs illuminated and some dark.}
     \end{figure}
-Overall, the lab went well. We were able to write a program which could easily be configured to match the names of an (imaginary) enduser. The wiring was simple, and was managed well on the breadboard. The use of the Serial Monitor greatly eased the burden of debugging. We also used Git for versrion control and collaboration.
-
+    Overall, the lab was successful. We developed a program that could be configured to display the names of an (imaginary) user(s) in lights. The wiring was straightforward and well-organized on a breadboard. Additionally, the Arduino serial monitor proved to greatly assist in the debugging process. Following the incident of accidentally overwriting the source code, the importance of using Git for version control was emphasized.
 \end{document}
