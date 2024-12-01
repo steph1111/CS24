@@ -95,9 +95,9 @@ The setup included the completion of two preliminary exercises: one involving bl
 The setup for the primary lab consisted of identifying all the required components and assembling the circuit. During the assembly, a minor issue was encountered in which where the cathode and anode legs of a few LEDs were reversed, causing some LEDs to remain off. This was quickly identified by setting all the LEDs to high on setup to confirm their functionality. Additionally, a multimeter was used to verify that the circuit was fully connected and performing as expected.
 
 \section{Challenges}
-Overall, the lab went smoothly, with only minor syntactical and logical errors. These issues were resolved, often by making the serial monitor to observe and debug the program's behavior.
+Overall, the lab went smoothly, with only minor syntactical and logical errors. These issues were resolved, often by making use of the serial monitor to observe and debug the program's behavior.
 
-The most noteworthy issue occurred after the lab itself was completed, during the process of preparing the .ino file for submission. While renaming the file, it was mistakenly overwritten. As this action was performed on a Linux system from the terminal, there was no trivial way to revert the action and recover the lost content. 
+The most noteworthy issue occurred after the lab itself was completed, during the process of preparing the .ino file for submission. While renaming the file, it was mistakenly overwritten. As this action was performed on a Linux system from the terminal, there was no trivial way to revert the action and recover the lost content (easily). 
 \section{Solutions}
 
 It was concluded attempting to restore the overwritten file content on the Linux system would be a dead end. Therefore, attention was focused on extracting the code from the Arduino. However, this approach was also unsuccessful, as the source code is not stored on the device, only the binary. After evaluating the possibility of using a decompiler and reverse-engineering the original program, it was concluded that the process would be more trouble than it was worth. As a result, a new version of the code was written.
