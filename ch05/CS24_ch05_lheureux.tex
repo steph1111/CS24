@@ -259,5 +259,12 @@ There are many different design parameters that are important to a cache's overa
 
 \subsubsection*{5.9} This exercise examines the single error-correcting, double error-detecting (SEC/DED) Hamming code.
 \subsubsection*{5.9.1 [10] \textlangle 5.5\textrangle} What is the minimum number of parity bits required to protect a 128-bit word using the SEC/DED code?
-
+    \begin{addmargin}[0.15cm]{0cm}
+    \[2^p \ge p + d + 1 \text{ bits}\]
+    \[2^p \ge p + 128 + 1 \text{ bits} = p + 129  \text{ bits}\]
+    \[2^p - p \ge 129 \text{ bits}\]
+    \[2^7 - 7 = 121 < 129 \text{ bits}\]
+    \[2^8 - 8 = 248 \ge 129 \text{ bits}\]
+    So 8 bits must be used.
+\end{addmargin}
 \end{document} 
