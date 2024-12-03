@@ -122,35 +122,87 @@
     \begin{tabular}{l|l|l|l|l|l|l|l|l|l|l|l|l}
     \textbf{Address (dec)} & \textbf{3} & \textbf{180} & \textbf{42} & \textbf{2} & \textbf{191} & \textbf{88} & \textbf{190} & \textbf{14} & \textbf{181} & \textbf{44} & \textbf{186} & \textbf{253} \\ \hline
     \textbf{Address (bin)} & 00000011 & 10110100 & 00101010 & 000000010 & 10111111 & 01011000 & 10111110 & 00001110 & 10110101 & 00101100 & 10111010 & 11111101 \\ 
-    \textbf{Tag} & 0000 & 1011 & 0010 & 0000 & 1011 & 0101 & 1011 & 0000 & 1011 & 0010 & 1011 & 1111 \\ 
-    \textbf{Index} & 0011 & 0100 & 1010 & 0010 & 1111 & 1000 & 1110 & 1110 & 0101 & 1100 & 1010 & 1101 \\ 
+    \textbf{Tag (28)} & 0000 & 1011 & 0010 & 0000 & 1011 & 0101 & 1011 & 0000 & 1011 & 0010 & 1011 & 1111 \\ 
+    \textbf{Index (4)} & 0011 & 0100 & 1010 & 0010 & 1111 & 1000 & 1110 & 1110 & 0101 & 1100 & 1010 & 1101 \\ 
     \textbf{Hit or Miss} & M & M & M & M & M & M & M & M & M & M & M & M \\ 
     \end{tabular}
 \end{table}
 
 \subsubsection*{5.2.2 [10] \textlangle 5.3\textrangle} For each of these references, identify the binary address, the tag, and the index given a direct-mapped cache with two-word blocks and a total size of 8 blocks. Also list if each reference is a hit or a miss, assuming the cache is initially empty.
-This cache involves multi-word blocks. Assuming a direct mapped cache, the block is given by
-\[(\text{block address}) \% (\text{number of blocks in the cache})\] where the address of the block is
-\[\frac{\text{byte address}}{\text{bytes per block}}\] 
-Therefore the block address is for addresses between
-\[
-\left[ \left| \frac{\text{byte address}}{\text{bytes per block}} \right| \times \text{bytes per block},  \left| \frac{\text{byte address}}{\text{bytes per block}} \right| \times \text{bytes per block} + (\text{bytes per block - 1})\right]
-\]
+\begin{table}[H]
+    \centering
+    \setlength{\tabcolsep}{3pt}
+    \fontsize{6pt}{12pt}\selectfont
+    \begin{tabular}{l|l|l|l|l|l|l|l|l|l|l|l|l}
+    \textbf{Memory (dec)} & \textbf{3} & \textbf{180} & \textbf{42} & \textbf{2} & \textbf{191} & \textbf{88} & \textbf{190} & \textbf{14} & \textbf{181} & \textbf{44} & \textbf{186} & \textbf{253} \\ \hline
+    \textbf{Memory (bin)} & 00000011 & 10110100 & 00101010 & 000000010 & 10111111 & 01011000 & 10111110 & 00001110 & 10110101 & 00101100 & 10111010 & 11111101 \\
+    \textbf{Tag (28)} & 0000 & 1011 & 0010 & 0000 & 1011 & 0101 & 1011 & 0000 & 1011 & 0010 & 1011 & 1111 \\
+    \textbf{Index (3)} & 001 & 010 & 101 & 001 & 111 & 100 & 111 & 111 & 010 & 110 & 101 & 110 \\
+    \textbf{Hit or Miss} & M & M & M & H & M & M & H & M & H & M & M & M
+    \end{tabular}
+\end{table}
 
 \subsubsection*{5.2.3 [10] \textlangle 5.3, 5.4\textrangle} You are asked to optimize a cache design for the given references. There are three direct-mapped cache designs possible, all with a total of 8 words of data:
-
-C1 has 1-word blocks,\\
-C2 has 2-word blocks,\\
+C1 has 1-word blocks,
+C2 has 2-word blocks,
 C3 has 4-word blocks.
-
 In terms of miss rate, which cache design is the best? If the miss stall time is 25 cycles, and C1 has an access time of 2 cycles, C2 takes 3 cycles, and C3 takes 5 cycles, which is the best cache design?
 
 There are many different design parameters that are important to a cache's overall performance. Below are listed parameters for different direct-mapped cache designs:
 
-Cache Data Size: 32 KiB\\
-Cache Block Size: 2 words\\
-Cache Access Time: 1 cycle
+\textbf{Cache Data Size:} 32 KiB
 
+\textbf{Cache Block Size:} 2 words
+
+\textbf{Cache Access Time:} 1 cycle
+\vspace{0.15in}
+
+\textbf{C1:} Miss rate 100\%
+\vspace{-0.1in}
+\begin{table}[H]
+    \setlength{\tabcolsep}{6pt}
+    \fontsize{9pt}{12pt}\selectfont
+    \begin{tabular}{l|c|c|c|c|c|c|c|c|c|c|c|c}
+    \textbf{Memory (dec)} & \textbf{3} & \textbf{180} & \textbf{42} & \textbf{2} & \textbf{191} & \textbf{88} & \textbf{190} & \textbf{14} & \textbf{181} & \textbf{44} & \textbf{186} & \textbf{253} \\
+    \textbf{Hit or Miss} & M & M & M & M & M & M & M & M & M & M & M & M \\
+    \end{tabular}
+\end{table}
+
+\textbf{C2:} Miss rate 83.3\%
+\vspace{-0.1in}
+\begin{table}[H]
+    \setlength{\tabcolsep}{6pt}
+    \fontsize{9pt}{12pt}\selectfont
+    \begin{tabular}{l|c|c|c|c|c|c|c|c|c|c|c|c}
+    \textbf{Memory (dec)} & \textbf{3} & \textbf{180} & \textbf{42} & \textbf{2} & \textbf{191} & \textbf{88} & \textbf{190} & \textbf{14} & \textbf{181} & \textbf{44} & \textbf{186} & \textbf{253} \\ 
+    \textbf{Hit or Miss} & M & M & M & M & M & M & H & M & H & M & M & M \\
+    \end{tabular}
+\end{table}
+
+\textbf{C3:} Miss rate 91.7\%
+\vspace{-0.1in}
+\begin{table}[H]
+    \setlength{\tabcolsep}{6pt}
+    \fontsize{9pt}{12pt}\selectfont
+    \begin{tabular}{l|c|c|c|c|c|c|c|c|c|c|c|c}
+    \textbf{Memory (dec)} & \textbf{3} & \textbf{180} & \textbf{42} & \textbf{2} & \textbf{191} & \textbf{88} & \textbf{190} & \textbf{14} & \textbf{181} & \textbf{44} & \textbf{186} & \textbf{253} \\ 
+    \textbf{Hit or Miss} & M & M & M & M & M & M & H & M & M & M & M & M \\
+    \end{tabular}
+    \end{table}
+\begin{itemize}
+    \item[(a)] Exclusively comparing the miss rates of each design, C2 would be the best for this set of data with a miss rate of $83.3\%$. This would be followed by C2 ($91.7\%$) then C1 ($100\%$).
+    \item[(b)] Accounting for the miss stall time and the access times:
+    \begin{addmargin}[0.5cm]{0cm}
+    $\text{total cycles} = (\text{number of accesses} \times \text{access time}) + \text{misses} \times \text{miss stall time}$
+
+    $\text{total cycles}_{\text{C1}} = (12 \times 2 \text{ cycles}) + (12 \times 25 \text{ cycles}) = 324 \text{ cycles}$
+
+    $\text{total cycles}_{\text{C2}} = (12 \times 3 \text{ cycles}) + (10 \times 25 \text{ cycles}) = 286 \text{ cycles}$
+
+    $\text{total cycles}_{\text{C3}} = (12 \times 5 \text{ cycles}) + (11 \times 25 \text{ cycles}) = 335 \text{ cycles}$
+    \end{addmargin}
+    C2 is the best cache design for this set of data.
+\end{itemize}
 
 \subsubsection*{5.7} This exercise examines the impact of different cache designs, specifically comparing associative caches to the direct-mapped caches from Section 5.4. For these exercises, refer to the address stream shown in Exercise 5.2.
 
