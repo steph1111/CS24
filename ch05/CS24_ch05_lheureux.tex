@@ -13,6 +13,7 @@
 \usepackage{scrextend}
 \usepackage{titlesec}
 \usepackage{colortbl}
+\usepackage{soul}
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows}
 
@@ -116,7 +117,6 @@
 
 \subsubsection*{5.2.1 [10] \textlangle 5.3\textrangle} For each of these references, identify the binary address, the tag, and the index given a direct-mapped cache with 16 one-word blocks. Also list if each reference is a hit or a miss, assuming the cache is initially empty.
 \begin{table}[H]
-    \centering
     \setlength{\tabcolsep}{3pt}
     \fontsize{6pt}{12pt}\selectfont
     \begin{tabular}{l|l|l|l|l|l|l|l|l|l|l|l|l}
@@ -130,7 +130,6 @@
 
 \subsubsection*{5.2.2 [10] \textlangle 5.3\textrangle} For each of these references, identify the binary address, the tag, and the index given a direct-mapped cache with two-word blocks and a total size of 8 blocks. Also list if each reference is a hit or a miss, assuming the cache is initially empty.
 \begin{table}[H]
-    \centering
     \setlength{\tabcolsep}{3pt}
     \fontsize{6pt}{12pt}\selectfont
     \begin{tabular}{l|l|l|l|l|l|l|l|l|l|l|l|l}
@@ -207,7 +206,56 @@ There are many different design parameters that are important to a cache's overa
 \subsubsection*{5.7} This exercise examines the impact of different cache designs, specifically comparing associative caches to the direct-mapped caches from Section 5.4. For these exercises, refer to the address stream shown in Exercise 5.2.
 
 \subsubsection*{5.7.1 [10] \textlangle 5.4\textrangle} Using the sequence of references from Exercise 5.2, show the final cache contents for a three-way set associative cache with two-word blocks and a total size of 24 words. Use LRU replacement. For each reference, identify the index bits, the tag bits, the block offset bits, and if it is a hit or a miss.
+\begin{table}[H]
+    \setlength{\tabcolsep}{3pt}
+    \fontsize{6pt}{12pt}\selectfont
+    \begin{tabular}{l|c|l|l|c|l|l|c|l|l||l}
+    \textbf{Index} & \multicolumn{1}{l|}{\textbf{V}} & \textbf{Tag (29)} & \textbf{Data} & \multicolumn{1}{l|}{\textbf{V}} & \textbf{Tag (29)} & \textbf{Data} & \multicolumn{1}{l|}{\textbf{V}} & \textbf{Tag (29)} & \textbf{Data} & \textbf{Data $\rightarrow$} \\ \hline
+    00 & 1 & 01011 & 88-89 & 0 & - & - & 0 & - & - & 88-89 \\
+    01 & 1 & 00000 & 2-3 & 1 & 10111 & 186-187 & 1 & 11111 & 252-253 & \multicolumn{1}{r}{ \st{2-3}, \st{42-43}, 2-3, 186-187, 252-253} \\
+    10 & 1 & 10110 & 180-181 & 1 & 00101 & 44-45 & 0 & - & - & 180-181, 44-45 \\
+    11 & 1 & 10111 & 190-191 & 1 & 00001 & 14-15 & 0 & - & - & 190-191, 14-15 \\
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \setlength{\tabcolsep}{3pt}
+    \fontsize{6pt}{12pt}\selectfont
+    \begin{tabular}{l|l|l|l|l|l|l|l|l|l|l|l|l}
+    \textbf{Memory (dec)} & \textbf{3} & \textbf{180} & \textbf{42} & \textbf{2} & \textbf{191} & \textbf{88} & \textbf{190} & \textbf{14} & \textbf{181} & \textbf{44} & \textbf{186} & \textbf{253} \\ \hline
+    \textbf{Memory (bin)} & 00000011 & 10110100 & 00101010 & 00000010 & 10111111 & 01011000 & 10111110 & 00001110 & 10110101 & 00101100 & 10111010 & 11111101 \\
+    \textbf{Tag (29)} & 00000 & 10110 & 00101 & 00000 & 10111 & 01011 & 10111 & 00001 & 10110 & 00101 & 10111 & 11111 \\
+    \textbf{Index (2)} & 01 & 10 & 01 & 01 & 11 & 00 & 11 & 11 & 10 & 10 & 01 & 10 \\
+    \textbf{Hit or Miss} & M & M & M & H & M & M & H & M & H & M & M & M
+    \end{tabular}
+\end{table}
+
 \subsubsection*{5.7.2 [10] \textlangle 5.4\textrangle} Using the references from Exercise 5.2, show the final cache contents for a fully associative cache with one-word blocks and a total size of 8 words. Use LRU replacement. For each reference, identify the index bits, the tag bits, and if it is a hit or a miss.
+\begin{table}[H]
+    \setlength{\tabcolsep}{3pt}
+    \fontsize{6pt}{12pt}\selectfont
+    \begin{tabular}{l|l|l||l}
+    \textbf{V} & \textbf{Address (32)} & \textbf{Data} & \textbf{Data $\rightarrow$} \\ \hline
+    1 & 11111101 & 253 &  \st{3}, \st{180}, \st{42}, \st{2}, 191, 88, 190, 14, 181, 44, 186, 253 \\
+    1 & 10111010 & 186 & \\
+    1 & 00101100 & 44 & \\
+    1 & 10110101 & 181 &  \\
+    1 & 00001110 & 14 & \\
+    1 & 10111110 & 190 & \\
+    1 & 01011000 & 88 & \\
+    1 & 10111111 & 191 & 
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \setlength{\tabcolsep}{3pt}
+    \fontsize{6pt}{12pt}\selectfont
+    \begin{tabular}{l|l|l|l|l|l|l|l|l|l|l|l|l}
+    \textbf{Memory (dec)} & \textbf{3} & \textbf{180} & \textbf{42} & \textbf{2} & \textbf{191} & \textbf{88} & \textbf{190} & \textbf{14} & \textbf{181} & \textbf{44} & \textbf{186} & \textbf{253} \\ \hline
+    \textbf{Memory (bin)} & 00000011 & 10110100 & 00101010 & 00000010 & 10111111 & 01011000 & 10111110 & 00001110 & 10110101 & 00101100 & 10111010 & 11111101 \\
+    \textbf{Hit or Miss} & M & M & M & M & M & M & M & M & M & M & M & M \\
+    \end{tabular}
+\end{table}
 
 \subsubsection*{5.9} This exercise examines the single error-correcting, double error-detecting (SEC/DED) Hamming code.
 \subsubsection*{5.9.1 [10] \textlangle 5.5\textrangle} What is the minimum number of parity bits required to protect a 128-bit word using the SEC/DED code?
