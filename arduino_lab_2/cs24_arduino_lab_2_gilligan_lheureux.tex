@@ -12,46 +12,6 @@
 \usepackage{xcolor}
 \usepackage{scrextend}
 
-\lstdefinelanguage[RISC-V]{Assembler} {
-  alsoletter={.},
-  alsodigit={0x},
-  morekeywords=[1]{ % instructions
-    lw, sw,
-    sll, slli,
-    add, addi, sub,
-    xor, xori, or, ori, and, andi,
-    beq, bne, blt, bge, bltu, bgeu,
-    j, jr, jal, jalr, ret,
-  },
-  morekeywords=[2]{ % registers
-    x0, x1, x2, x3, x4, x5, x6, x7, x7, x8, x9, x10,
-    x11, x12, x13, x14, x15, x16, x17, x18, x19, x20, 
-    x21, x22, x23, x24, x25, x26, x27, x28, x29, x30, x31 },
-  morecomment=[l]{;},   % mark ; as line comment start
-  morecomment=[l]{\#},  % as well as #
-}
-
-% define some colors
-\definecolor{pink}{rgb}{204, 0, 68}
-\definecolor{blue}{rgb}{77, 148, 255}
-
-\lstset{
-  % listings sonderzeichen (for german weirdness)
-  literate={ö}{{\"o}}1
-           {ä}{{\"a}}1
-           {ü}{{\"u}}1,
-  basicstyle=\ttfamily,
-  breaklines=true,
-  commentstyle=\color{gray!50!black},
-  keywordstyle=[1]\color{pink},
-  % keywordstyle=[2]\color{blue}, 
-  stringstyle=\color{mauve},                    % strings are from the telekom
-  language=[RISC-V]Assembler,                   % all code is RISC-V
-  tabsize=4,                                    % indent tabs with 4 spaces
-  showstringspaces=false                        % do not replace spaces with weird underlines
-}
-
-
 \setlength{\parindent}{0pt} % Remove auto paragraph indents
 \renewcommand\labelitemi{{\boldmath$\cdot$}}
 \setlength{\mathindent}{0pt}  

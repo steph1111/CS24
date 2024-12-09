@@ -1,5 +1,5 @@
 /**
- * CS24: First Arduino Lab
+ * CS24: Second Arduino Lab
  * @authors Liam Gilligan and Stephanie L'Heureux
  * 
  * It's not a bomb countdown timer
@@ -26,7 +26,7 @@ int rotating = 0;
 bool rotation_mode = true;
 int max_time = 0;
 // Integer to 7-bit display
-int int_to_seg[10] = {
+int int_to_seg[11] = {
   0b11111100, // 0
   0b01100000, // 1
   0b11011010, // 2
@@ -36,7 +36,7 @@ int int_to_seg[10] = {
   0b10111110, // 6
   0b11100000, // 7
   0b11111110, // 8
-  0b11110110  // 9
+  0b11110110, // 9
 };
 
 /**
@@ -80,19 +80,15 @@ void loop() {
     }
   } else {
     if (max_time <= 0) {
-      rotation_mode = true; 
+      display_value(0);
+      delay_and_check_for_rotation(1000);
+      display_none();
+      delay_and_check_for_rotation(1000);
     } else {
       display_value(max_time);
       max_time--;
       // / delay 0.1 second while looking for rotation
-      for (int i = 0; i < 100; i++) {
-        delay(1);
-        if (check_rot_rotation()) {
-          rotating = true;
-          rotation_mode = true;
-          break;
-        }
-      }
+      delay_and_check_for_rotation(100);
     }
   }
 }
@@ -150,4 +146,34 @@ void increment_max_time(int rotation) {
   if ((max_time != 0 || rotation > 0) && (max_time != 99 || rotation < 0)) {
     max_time += rotation;
   }
+}
+
+/**
+ * Delays program while still checking for encoder rotation.
+ * 
+ * @param wait Total time to wait if not interupted.
+ */
+void delay_and_check_for_rotation(int wait) {
+  for (int i = 0; i < wait; i++) {
+    delay(1);
+    if (check_rot_rotation()) {
+      rotating = true;
+      rotation_mode = true;
+      return;
+    }
+  }
+}
+
+/**
+ * Sets the 7-segment displays to display nothing.
+ */
+void display_none () {
+  digitalWrite(latch_1, LOW);
+  digitalWrite(latch_0, LOW);
+
+  shiftOut(data_0, clock_0, MSBFIRST, 0);
+  shiftOut(data_1, clock_1, MSBFIRST, 0);
+
+  digitalWrite(latch_1, HIGH);
+  digitalWrite(latch_0, HIGH);
 }
