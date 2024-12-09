@@ -26,7 +26,7 @@ int rotating = 0;
 bool rotation_mode = true;
 int max_time = 0;
 // Integer to 7-bit display
-int int_to_seg[11] = {
+int int_to_seg[10] = {
   0b11111100, // 0
   0b01100000, // 1
   0b11011010, // 2
