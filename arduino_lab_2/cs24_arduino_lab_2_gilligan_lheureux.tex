@@ -47,11 +47,11 @@
 \vspace{0.25in}
 
 \section*{Introduction}
-The second and final Arduino lab for CS-24 involved developing a "not a bomb" countdown timer using two 7-segment displays to indicate time set/remaining controlled by a rotary encoder. The user may turn the rotary encoder to incrementally select a value between 0.0 and 9.9 seconds. Pressing the encoder button evokes countdown mode in which the timer decreases by 0.1 second intervals. The countdown continues until it reaches zero or is interrupted by adjustments to the rotary encoder. This report discusses the components used and implementation as well as some challenges faced and solutions.
+The second and final Arduino lab for CS-24 involved developing a ``not a bomb'' countdown timer using two 7-segment displays to indicate time set/remaining controlled by a rotary encoder. The user may turn the rotary encoder to incrementally select a value between 0.0 and 9.9 seconds. Pressing the encoder button evokes countdown mode in which the timer decreases by 0.1 second intervals. The countdown continues until it reaches zero or is interrupted by adjustments to the rotary encoder. This report discusses the components used and implementation as well as some challenges faced and solutions.
 \section*{Background}
 The countdown timer utilizes several hardware components, including two 7-segment displays, two 74HC595 shift registers, and a rotary encoder. The following sections provide an overview of these components and explain the basic principles of their operation.
 \subsection*{7-segment display}
-A 7-segment display is a component featuring seven LED segments arranged in an "8-shaped" pattern, which may be illuminated in different combinations to display numbers and some letters. Each segment is an independent LED, controlled by a pins (labeled a–g) and connected through either a common cathode or anode. When power is applied to a pin, the corresponding segment lights up.
+A 7-segment display is a component featuring seven LED segments arranged in an ``8-shaped'' pattern, which may be illuminated in different combinations to display numbers and some letters. Each segment is an independent LED, controlled by a pins (labeled a–g) and connected through either a common cathode or anode. When power is applied to a pin, the corresponding segment lights up.
 
 \begin{table}[H]
     \centering
@@ -186,7 +186,7 @@ Hardware was created and tested in Wokwi, a browser-based microcontroller simula
 
 \subsection*{Software}
 \subsubsection*{Program states}
-The countdown timer has two basic states, "rotation mode" in which the user selects a start time with the rotary encoder and "countdown mode" where the timer counts down in increments of 0.1s. The software is structured in a way in which it checks what state it is in, and executes the expected behavior of that state unless an interruption condition is encountered, in which the state is changed. This approach simplifies the behavior into two discrete functionaries which must be achieved.
+The countdown timer has two basic states, ``rotation mode'' in which the user selects a start time with the rotary encoder and ``countdown mode'' where the timer counts down in increments of 0.1s. The software is structured in a way in which it checks what state it is in, and executes the expected behavior of that state unless an interruption condition is encountered, in which the state is changed. This approach simplifies the behavior into two discrete functionaries which must be achieved.
 
 \subsubsection*{Read and track rotations}
 The \verb|check_rot_rotation()| function reads channel A and channel B from the rotary encoder and determines the rotation. The function returns is 1 if rotated clockwise, -1 if rotated counter clockwise, 0 if not rotated. The result is passed to \verb|increment_max_time()| which adds the rotation to a global \verb|max_time| counter, ensuring the \verb|max_time| does not exceed 99 or fall below 0.
@@ -215,10 +215,10 @@ In a section above, the general principals of a 7-segment display were discussed
 To display the \verb|max_time| on the 7-segment displays, first the first and second digit are isolated. These values are used as an index into the \verb|int_to_seg| array, converting the base 10 integer into a 8-bit representation for the 7-bit display. The number from the tens place is or-ed with 1 to evoke the DP (decimal point) bit. These values are then sent to the shift registers using \verb|shiftout()|
 
 \subsubsection*{Countdown mode}
-"Countdown mode" is evoked by pressing the button on the rotary encoder. At this time, the user selected \verb|max_time| is decremented by 1, the new \verb|max_time| is displayed and the program delays for 0.1s. This is repeated until the \verb|max_time| reaches 0 or the user turns the rotary encoder. For implementation of checking for rotation during delay, see the following section. 
+``Countdown mode'' is evoked by pressing the button on the rotary encoder. At this time, the user selected \verb|max_time| is decremented by 1, the new \verb|max_time| is displayed and the program delays for 0.1s. This is repeated until the \verb|max_time| reaches 0 or the user turns the rotary encoder. For implementation of checking for rotation during delay, see the following section. 
 
 \section*{Challenges and solutions}
-The most notable challenge encountered was when working with the \verb|delay()| function. This built-in Arduino function stops the entire program execution for a specified duration. In this program, \verb|delay()| is used to wait 0.1s to update the displays. However, during "countdown mode", if the rotary encoder is rotated, the program should exit countdown mode and switch to "rotation mode". This is an issue because the rotary encoder needs to be monitored continuously for changes, but \verb|delay()| halts all program activity. As a result, the encoder is only checked every 0.1s in "countdown mode", making it unable to detect rotations reliably. 
+The most notable challenge encountered was when working with the \verb|delay()| function. This built-in Arduino function stops the entire program execution for a specified duration. In this program, \verb|delay()| is used to wait 0.1s to update the displays. However, during ``countdown mode'', if the rotary encoder is rotated, the program should exit countdown mode and switch to ``rotation mode''. This is an issue because the rotary encoder needs to be monitored continuously for changes, but \verb|delay()| halts all program activity. As a result, the encoder is only checked every 0.1s in ``countdown mode'', making it unable to detect rotations reliably. 
 
 \vspace{0.15cm}
 To resolve this, the \verb|delay_and_check_for_rotation()| function was implemented. This function accepts a delay time then loops that many times, checking for rotation and delaying for 1ms each iteration. When the loop is complete, the program will have stopped (about) the requested time, while still checking for rotation at an acceptable interval.
