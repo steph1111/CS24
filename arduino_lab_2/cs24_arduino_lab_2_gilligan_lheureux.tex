@@ -178,6 +178,11 @@ Two 7-segment displays show either the time remaining or the time set by the use
 
 \subsubsection*{General implementation}
 Hardware was created and tested in Wokwi, a browser-based microcontroller simulator. All components were organized on a breadboard for easy connections and usage of common ground and 5V rails. Colored, neatly organized wires were also used to keep track of the connections.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=5in]{circut.png}
+    \caption{Completed countdown timer hardware.}
+\end{figure}
 
 \subsection*{Software}
 \subsubsection*{Program states}
@@ -188,33 +193,29 @@ The \verb|check_rot_rotation()| function reads channel A and channel B from the 
 
 \subsubsection*{Display time}
 In a section above, the general principals of a 7-segment display were discussed. If we note that power on is a 1 and power off is 0, each configuration to display a digit may be simplified to a 8-bit binary representation of the form \verb|abcdefgDP| (Table 2). Making use of the shift register as mentioned in the previous section, 0-9 may then may be simplified to binary strings. These can be stored in an array \verb|int_to_seg| for simple conversion from decimal to 7-segment binary representation.
+\begin{table}[H]
+    \centering
+    \setlength{\tabcolsep}{15pt}
+    \begin{tabular}{cccccccc|c}
+    \textbf{a} & \textbf{b} & \textbf{c} & \textbf{d} & \textbf{e} & \textbf{f} & \textbf{g} & \textbf{DP} & \textbf{digit} \\ \hline
+    1 & 1 & 1 & 1 & 1 & 1 & 0 & x & 0 \\ \hline
+    0 & 1 & 1 & 0 & 0 & 0 & 0 & x & 1 \\ \hline
+    1 & 1 & 0 & 1 & 1 & 0 & 1 & x & 2 \\ \hline
+    1 & 1 & 1 & 1 & 0 & 0 & 1 & x & 3 \\ \hline
+    0 & 1 & 1 & 0 & 0 & 1 & 1 & x & 4 \\ \hline
+    1 & 0 & 1 & 1 & 0 & 1 & 1 & x & 5 \\ \hline
+    1 & 0 & 1 & 1 & 1 & 1 & 1 & x & 6 \\ \hline
+    1 & 1 & 1 & 0 & 0 & 0 & 0 & x & 7 \\ \hline
+    1 & 1 & 1 & 1 & 1 & 1 & 1 & x & 8 \\ \hline
+    1 & 1 & 1 & 0 & 0 & 1 & 1 & x & 9 \\
+    \end{tabular}
+    \caption{Truth table to display digits 0-9}
+\end{table}
 
-\vspace*{0.15cm}
 To display the \verb|max_time| on the 7-segment displays, first the first and second digit are isolated. These values are used as an index into the \verb|int_to_seg| array, converting the base 10 integer into a 8-bit representation for the 7-bit display. The number from the tens place is or-ed with 1 to evoke the DP (decimal point) bit. These values are then sent to the shift registers using \verb|shiftout()|
 
 \subsubsection*{Countdown mode}
 "Countdown mode" is evoked by pressing the button on the rotary encoder. At this time, the user selected \verb|max_time| is decremented by 1, the new \verb|max_time| is displayed and the program delays for 0.1s. This is repeated until the \verb|max_time| reaches 0 or the user turns the rotary encoder. For implementation of checking for rotation during delay, see the following section. 
-
-% \begin{table}[H]
-%     \centering
-%     \setlength{\tabcolsep}{15pt}
-%     \begin{tabular}{cccccccc|c}
-%     \textbf{a} & \textbf{b} & \textbf{c} & \textbf{d} & \textbf{e} & \textbf{f} & \textbf{g} & \textbf{DP} & \textbf{digit} \\ \hline
-%     1 & 1 & 1 & 1 & 1 & 1 & 0 & x & 0 \\ \hline
-%     0 & 1 & 1 & 0 & 0 & 0 & 0 & x & 1 \\ \hline
-%     1 & 1 & 0 & 1 & 1 & 0 & 1 & x & 2 \\ \hline
-%     1 & 1 & 1 & 1 & 0 & 0 & 1 & x & 3 \\ \hline
-%     0 & 1 & 1 & 0 & 0 & 1 & 1 & x & 4 \\ \hline
-%     1 & 0 & 1 & 1 & 0 & 1 & 1 & x & 5 \\ \hline
-%     1 & 0 & 1 & 1 & 1 & 1 & 1 & x & 6 \\ \hline
-%     1 & 1 & 1 & 0 & 0 & 0 & 0 & x & 7 \\ \hline
-%     1 & 1 & 1 & 1 & 1 & 1 & 1 & x & 8 \\ \hline
-%     1 & 1 & 1 & 0 & 0 & 1 & 1 & x & 9 \\
-%     \end{tabular}
-%     \caption{Truth table to display digits 0-9}
-% \end{table}
-
-
 
 \section*{Challenges and solutions}
 The most notable challenge encountered was when working with the \verb|delay()| function. This built-in Arduino function stops the entire program execution for a specified duration. In this program, \verb|delay()| is used to wait 0.1s to update the displays. However, during "countdown mode", if the rotary encoder is rotated, the program should exit countdown mode and switch to "rotation mode". This is an issue because the rotary encoder needs to be monitored continuously for changes, but \verb|delay()| halts all program activity. As a result, the encoder is only checked every 0.1s in "countdown mode", making it unable to detect rotations reliably. 
@@ -224,9 +225,9 @@ To resolve this, the \verb|delay_and_check_for_rotation()| function was implemen
 
 \section*{Conclusion}
 The lab was successfully completed and met the specifications in the lab guidelines. The working simulation may be viewed at this link: \href{https://wokwi.com/projects/416744232255463425}{Wokwi: Arduino lab 2}
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=5in]{circut.png}
-        \caption{Completed countdown timer hardware.}
-    \end{figure}
+    % \begin{figure}[H]
+    %     \centering
+    %     \includegraphics[width=5in]{circut.png}
+    %     \caption{Completed countdown timer hardware.}
+    % \end{figure}
 \end{document}
