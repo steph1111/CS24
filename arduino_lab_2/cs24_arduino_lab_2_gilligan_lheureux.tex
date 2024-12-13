@@ -12,6 +12,7 @@
 \usepackage{xcolor}
 \usepackage{scrextend}
 \usepackage{tikz}
+\usepackage{hyperref}
 
 \setlength{\parindent}{0pt} % Remove auto paragraph indents
 \renewcommand\labelitemi{{\boldmath$\cdot$}}
@@ -222,7 +223,7 @@ The most notable challenge encountered was when working with the \verb|delay()| 
 To resolve this, the \verb|delay_and_check_for_rotation()| function was implemented. This function accepts a delay time then loops that many times, checking for rotation and delaying for 1ms each iteration. When the loop is complete, the program will have stopped (about) the requested time, while still checking for rotation at an acceptable interval.
 
 \section*{Conclusion}
-The lab was successfully completed and met the specifications in the lab guidelines. 
+The lab was successfully completed and met the specifications in the lab guidelines. The working simulation may be viewed at this link: \href{https://wokwi.com/projects/416744232255463425}{Wokwi: Arduino lab 2}
     \begin{figure}[H]
         \centering
         \includegraphics[width=5in]{circut.png}
